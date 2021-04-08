@@ -2,7 +2,9 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const authRoute = require('./routes/auth');
+const auth_route = require('./routes/auth');
+const user_route = require('./routes/user');
+
 
 dotenv.config();
 
@@ -16,7 +18,9 @@ process.env.DB_CONNECTION,
 app.use(express.json());
 
 //route middlewares
-app.use('/api/user', authRoute);
+app.use('/api/user', auth_route);
+app.use('/api/userdetails', user_route);
+
 
 //server startup
 app.listen(3000, () => console.log('server up and running'));
