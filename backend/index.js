@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const auth_route = require('./routes/auth');
@@ -15,6 +16,7 @@ process.env.DB_CONNECTION,
 () => console.log('connected to db'));
 
 //Middleware
+app.use(cors());
 app.use(express.json());
 
 //route middlewares
