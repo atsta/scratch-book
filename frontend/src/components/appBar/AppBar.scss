@@ -1,7 +1,14 @@
 
-.component-navbar {
+.AppBar {
 
-    > a {
+    .Logo {
+        &:hover {
+            text-decoration: none;
+            color: #ddd !important;
+        }
+    }
+
+    nav > a {
         position: relative;
         padding: 10px 25px 0;
         cursor: pointer;
