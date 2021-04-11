@@ -38,18 +38,29 @@ export class AuthProvider extends React.Component {
     resetPassword = formData => {
 
         console.log('TODO: reset password');
+
         return Promise.resolve(formData);
     };
 
     login = formData => {
 
         console.log('TODO: login');
-        return Promise.resolve(formData);
+
+        const wereCredentialsCorrect = Math.random() < .5;
+
+        return wereCredentialsCorrect
+            ? Promise.resolve().then(() => {
+                this.setState({ user: 'amazing_fake_user' });
+            })
+            : Promise.reject('Wrong credentials');
     };
 
     logout = () => {
 
         console.log('TODO: logout');
+
+        this.setState({ user: null });
+
         return Promise.resolve();
     };
 
