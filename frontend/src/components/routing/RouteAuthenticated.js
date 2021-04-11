@@ -1,5 +1,5 @@
 import React from 'react';
-import { AuthState } from '../../contexts/auth';
+import AuthContext from '../../contexts/AuthContext';
 import { Redirect, Route, useLocation } from 'react-router-dom';
 
 /**
@@ -12,11 +12,11 @@ export default function RouteAuthenticated(props) {
         url = pathname + search + hash;
 
     return (
-        <AuthState.Consumer>{auth =>
-            <Route {...restProps} render={() => auth
-                ? <Component />
+        <AuthContext.Consumer>{auth =>
+            <Route {...restProps} render={props => auth.isLoggedIn()
+                ? <Component {...props} />
                 : <Redirect to={`/login?return=${url}`} />
             } />
-        }</AuthState.Consumer>
+        }</AuthContext.Consumer>
     );
 };

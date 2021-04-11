@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import UserSection from './UserSection';
 import './AppBar.scss';
 
 const items = [
@@ -42,9 +43,7 @@ export default withRouter(class AppBar extends React.Component {
                             )}
                         </nav>
                     </div>
-                    <div className="d-flex align-items-center">
-                        <Link to="/account">Account</Link>
-                    </div>
+                    <UserSection />
                 </div>
             </div>
         );

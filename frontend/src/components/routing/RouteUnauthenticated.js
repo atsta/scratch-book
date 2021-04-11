@@ -1,5 +1,5 @@
 import React from 'react';
-import { AuthState } from '../../contexts/auth';
+import AuthContext from '../../contexts/AuthContext';
 import { Redirect, Route } from 'react-router-dom';
 
 /**
@@ -10,11 +10,11 @@ export default function RouteUnauthenticated(props) {
     const { component: Component, ...restProps } = props;
 
     return (
-        <AuthState.Consumer>{auth =>
-            <Route {...restProps} render={() => auth
+        <AuthContext.Consumer>{auth =>
+            <Route {...restProps} render={props => auth.isLoggedIn()
                 ? <Redirect to={`/`} />
-                : <Component />
+                : <Component {...props} />
             } />
-        }</AuthState.Consumer>
+        }</AuthContext.Consumer>
     );
 };
