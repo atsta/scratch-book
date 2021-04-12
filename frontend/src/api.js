@@ -1,31 +1,10 @@
-const Promise = require('bluebird');
+import { postJson } from './util/request';
 
 const apiPrefix = `${process.env.REACT_APP_BACKEND_ORIGIN}/api`;
 
-const request = (url, options) => fetch(url, {
-    method: 'get',
-    mode: 'cors',
-    ...options,
-}).then(async response => {
-    if(!response.ok) {
-        throw new Error(JSON.stringify({
-            status: response.status,
-            statusText: response.statusText,
-            message: await response.text(),
-        }));
-    }
-    return response.json();
-});
+export function createUser(formData) {
 
-const formDataToRequestBody = formData => JSON.stringify(Object.fromEntries(formData));
-
-/**
- *
- */
-export const createUser = formData => {
-
-    return request(`${apiPrefix}/user/register`, {
-        method: 'post',
-        body: formDataToRequestBody(formData),
+    return postJson(`${apiPrefix}/user/register`, {
+        body: formData,
     });
-};
+}
