@@ -1,7 +1,5 @@
 const Promise = require('bluebird');
 
-Promise.config({ cancellation: true });
-
 const apiPrefix = `${process.env.REACT_APP_BACKEND_ORIGIN}/api`;
 
 const request = (url, options) => fetch(url, {
