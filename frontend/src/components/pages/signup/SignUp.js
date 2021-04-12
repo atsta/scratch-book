@@ -32,8 +32,8 @@ export default function SignUp() {
         }
         catch {
             setError('Failed to create an account');
+            setLoading(false);
         }
-        setLoading(false);
     }
 
     return (
@@ -43,6 +43,10 @@ export default function SignUp() {
                     <h2 className="text-center mb-4">Sign Up</h2>
                     {error && <Alert variant="danger">{error}</Alert>}
                     <Form onSubmit={handleSubmit}>
+                        <Form.Group id="name">
+                            <Form.Label>Name</Form.Label>
+                            <Form.Control name="name" type="text" required />
+                        </Form.Group>
                         <Form.Group id="email">
                             <Form.Label>Email</Form.Label>
                             <Form.Control name="email" type="email" required />
