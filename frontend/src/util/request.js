@@ -45,11 +45,7 @@ function request(url, options) {
                 resolve(response.json());
             }
             else {
-                reject(new Error(JSON.stringify({
-                    status: response.status,
-                    statusText: response.statusText,
-                    message: await response.text(),
-                })));
+                reject(new Error(await response.text()));
             }
         }).catch(error => {
             if(error.name !== 'AbortError') {

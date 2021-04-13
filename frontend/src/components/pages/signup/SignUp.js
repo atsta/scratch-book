@@ -30,8 +30,8 @@ export default function SignUp() {
             await register(formData);
             history.push('/');
         }
-        catch {
-            setError('Failed to create an account');
+        catch(error) {
+            setError(error.message || 'Failed to create account');
             setLoading(false);
         }
     }
