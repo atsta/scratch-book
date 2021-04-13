@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button, Card, Alert } from 'react-bootstrap';
 import { useAuth } from '../../../contexts/AuthContext';
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useLocation, useHistory } from 'react-router-dom'
 
 /**
  *
@@ -12,6 +12,8 @@ export default function Login() {
     const [ error, setError ] = useState('');
     const [ loading, setLoading ] = useState(false);
     const history = useHistory();
+    const location = useLocation();
+    const returnToPage = new URLSearchParams(location.search).get('return') || '/';
 
     async function handleSubmit(e) {
 
@@ -23,7 +25,7 @@ export default function Login() {
             setError('');
             setLoading(true);
             await login(formData);
-            history.push('/');
+            history.push(returnToPage);
         }
         catch {
             setError('Failed to log in');
