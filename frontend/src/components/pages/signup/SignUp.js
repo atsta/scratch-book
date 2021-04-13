@@ -28,7 +28,7 @@ export default function SignUp() {
             setError('');
             setLoading(true);
             await register(formData);
-            history.push('/');
+            history.push('/login', { from: 'signup' });
         }
         catch(error) {
             setError(error.message || 'Failed to create account');
