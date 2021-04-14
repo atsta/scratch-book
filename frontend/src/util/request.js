@@ -45,7 +45,8 @@ function request(url, options) {
                 resolve(response.json());
             }
             else {
-                reject(new Error(await response.text()));
+                const errorMessage = (await response.text()) || response.statusText;
+                reject(new Error(errorMessage));
             }
         }).catch(error => {
             if(error.name !== 'AbortError') {
