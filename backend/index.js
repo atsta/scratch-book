@@ -21,7 +21,7 @@ app.use(express.json());
 
 //route middlewares
 app.use('/api/user', auth_route);
-app.use('/api/userdetails', user_route);
+app.use('/api/users', user_route);
 
 
 //server startup
