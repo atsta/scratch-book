@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 router.post('/add', async (req, res) => {    
     const verified = verify(req, res);
 
-    //input validation
+    //input validation 
     const validation_result = new_board_validation(req.body); 
     if (validation_result.error) 
         return res.status(400).send(validation_result.error.details[0].message);
