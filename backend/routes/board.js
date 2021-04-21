@@ -2,8 +2,12 @@ const router = require('express').Router();
 const { new_board_validation } = require('../validation');
 const verify = require('./verification');
 const Board = require('../models/Board');
+const User = require('../models/User');
+const jwt = require('jsonwebtoken');
 
 router.post('/add', async (req, res) => {    
+    const verified = verify(req, res);
+
     //input validation
     const validation_result = new_board_validation(req.body); 
     if (validation_result.error) 
@@ -21,7 +25,15 @@ router.post('/add', async (req, res) => {
     
     try {
         const board_save = await board.save();
+
+        //connect new board to the user 
+        await User.updateOne(
+            { _id: verified._id },  
+            { $push: { owned : board_save._id }}
+        );
+
         res.send({ board: board_save._id });
+        
     } catch(err) {
         res.status(400).send(err);
     }
