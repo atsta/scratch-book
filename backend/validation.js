@@ -29,5 +29,16 @@ const login_validation = body => {
     return schema.validate(body);
 };
 
+const new_board_validation = body => {
+        const schema = Joi.object({
+                title: Joi.string()
+                        .min(6)
+                        .required(), 
+                is_public: Joi.bool()
+        });
+        return schema.validate(body);
+};
+
 module.exports.register_validation = register_validation;
 module.exports.login_validation = login_validation;
+module.exports.new_board_validation = new_board_validation;

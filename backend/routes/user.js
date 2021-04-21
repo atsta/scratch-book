@@ -11,6 +11,7 @@ router.get('/', async (req, res) => {
     }
 });
 
+//('/:userId', verify, async (req, res)
 router.get('/:userId', async (req, res) => {
     try {
         const user = await User.findById(req.params.userId);
@@ -20,6 +21,7 @@ router.get('/:userId', async (req, res) => {
     }
 });
 
+//('/:userId', verify, async (req, res)
 router.delete('/:userId', async (req, res) => {
     try {
         const removed_user = await User.deleteOne({ _id: req.params.userId });
@@ -29,6 +31,7 @@ router.delete('/:userId', async (req, res) => {
     }
 });
 
+//('/:userId', verify, async (req, res)
 router.patch('/:userId', async (req, res) => {
     try {
         const updated_user = await User.updateOne(

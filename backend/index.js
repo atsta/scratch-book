@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const auth_route = require('./routes/auth');
 const user_route = require('./routes/user');
+const board_route = require('./routes/board');
 
 
 dotenv.config();
@@ -22,6 +23,7 @@ app.use(express.json());
 //route middlewares
 app.use('/api/user', auth_route);
 app.use('/api/users', user_route);
+app.use('/api/board', board_route);
 
 
 //server startup
