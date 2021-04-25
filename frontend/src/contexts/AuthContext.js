@@ -1,5 +1,8 @@
 import React, { useContext } from 'react';
-import { createUser } from '../api';
+import { createUser, loginUser } from '../api';
+import jwt from 'jsonwebtoken';
+
+const LOCAL_STORAGE_AUTH_TOKEN_NAME = 'auth_token';
 
 const AuthContext = React.createContext({});
 
@@ -22,12 +25,12 @@ export function useAuth() {
 export class AuthProvider extends React.Component {
 
     state = {
-        user: null,
+        token: localStorage.getItem(LOCAL_STORAGE_AUTH_TOKEN_NAME),
     };
 
     isLoggedIn = () => {
 
-        return this.state.user !== null;
+        return this.state.token !== null;
     };
 
     register = formData => {
@@ -44,22 +47,19 @@ export class AuthProvider extends React.Component {
 
     login = formData => {
 
-        console.log('TODO: login');
-
-        const wereCredentialsCorrect = Math.random() < .5;
-
-        return wereCredentialsCorrect
-            ? Promise.resolve().then(() => {
-                this.setState({ user: 'amazing_fake_user' });
-            })
-            : Promise.reject('Wrong credentials');
+        return loginUser(formData)
+            .then(({ token }) => {
+                localStorage.setItem(LOCAL_STORAGE_AUTH_TOKEN_NAME, token);
+                this.setState({ token: jwt.decode(token) });
+            });
     };
 
     logout = () => {
 
-        console.log('TODO: logout');
+        console.log('TODO: inform server about logout?');
 
-        this.setState({ user: null });
+        localStorage.removeItem(LOCAL_STORAGE_AUTH_TOKEN_NAME);
+        this.setState({ token: null });
 
         return Promise.resolve();
     };

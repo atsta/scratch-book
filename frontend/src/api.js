@@ -8,3 +8,10 @@ export function createUser(formData) {
         body: formData,
     });
 }
+
+export function loginUser(formData) {
+
+    return postJson(`${apiPrefix}/user/login`, {
+        body: formData,
+    });
+}
