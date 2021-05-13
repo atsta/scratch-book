@@ -45,7 +45,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"test4@mail.com\", \r\n    \"password\": \"1234556\"\r\n}",
+					"raw": "{\r\n    \"email\": \"test3@mail.com\", \r\n    \"password\": \"1234556\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -98,9 +98,16 @@
 			"name": "Get Specific User",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDZlZDlmMWI1MWFkMWQ3NTQ0YjEzYWQiLCJpYXQiOjE2MTkwMjU1ODZ9.hf5jwfxhd7t6cR9P6qEfAfEm51LltAgD1o1NIxRV-as",
+						"type": "text",
+						"disabled": true
+					}
+				],
 				"url": {
-					"raw": "http://localhost:3000/api/users/607482dc45a8385ac85018d2",
+					"raw": "http://localhost:3000/api/users/60807069f02faaee006422b8",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -109,7 +116,7 @@
 					"path": [
 						"api",
 						"users",
-						"607482dc45a8385ac85018d2"
+						"60807069f02faaee006422b8"
 					]
 				}
 			},
@@ -119,9 +126,16 @@
 			"name": "Delete User",
 			"request": {
 				"method": "DELETE",
-				"header": [],
+				"header": [
+					{
+						"key": "auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDZlZDlmMWI1MWFkMWQ3NTQ0YjEzYWQiLCJpYXQiOjE2MTkwMjU1ODZ9.hf5jwfxhd7t6cR9P6qEfAfEm51LltAgD1o1NIxRV-as",
+						"type": "text",
+						"disabled": true
+					}
+				],
 				"url": {
-					"raw": "http://localhost:3000/api/users/607482dc45a8385ac85018d2",
+					"raw": "http://localhost:3000/api/users/60807069f02faaee006422b8",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -130,7 +144,7 @@
 					"path": [
 						"api",
 						"users",
-						"607482dc45a8385ac85018d2"
+						"60807069f02faaee006422b8"
 					]
 				}
 			},
@@ -151,20 +165,228 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/api/users/607482dc45a8385ac85018d2",
-					"protocol": "http",
+					"raw": "{{BaseURL}}/users/607482dc45a8385ac85018d2",
 					"host": [
-						"localhost"
+						"{{BaseURL}}"
 					],
-					"port": "3000",
 					"path": [
-						"api",
 						"users",
 						"607482dc45a8385ac85018d2"
 					]
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Add Board",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MDZlZDljOTc5NGIzZmRhZjQyM2UxOTQiLCJuYW1lIjoiQXRoZW5hIiwiZW1haWwiOiJ0ZXN0M0BtYWlsLmNvbSIsImlhdCI6MTYyMDkzNzkwM30.btQYS86JqGWAWpjDNt7fjaTXP6LTzvd4QFAFZ8soOyg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"newboard2\", \r\n    \"is_public\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/board/add",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"board",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Follow Board",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "auth-token",
+						"value": "{{auth-token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"newboard\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/board/follow",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"board",
+						"follow"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Followed Boards",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "auth-token",
+						"value": "{{auth-token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BaseURL}}/board/followed",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"board",
+						"followed"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Owned Boards",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "auth-token",
+						"value": "{{auth-token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BaseURL}}/board/owned",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"board",
+						"owned"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Board",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "auth-token",
+						"value": "{{auth-token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"newboard2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/board/delete",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"board",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "auth-token",
+						"value": "{{auth-token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"newboard2\", \r\n    \"is_public\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/board/update/609c301684db2f32f8cd5f9e",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"board",
+						"update",
+						"609c301684db2f32f8cd5f9e"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BaseURL",
+			"value": "http://localhost:3000/api"
+		},
+		{
+			"key": "auth-token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MDZlZDljOTc5NGIzZmRhZjQyM2UxOTQiLCJuYW1lIjoiQXRoZW5hIiwiZW1haWwiOiJ0ZXN0M0BtYWlsLmNvbSIsImlhdCI6MTYyMDkzNzkwM30.btQYS86JqGWAWpjDNt7fjaTXP6LTzvd4QFAFZ8soOyg"
 		}
 	]
 }
