@@ -12,6 +12,9 @@ import AccountInfo from './pages/accountInfo/AccountInfo';
 import SignUp from './pages/signup/SignUp';
 import Login from './pages/login/Login';
 import ForgotPassword from './pages/forgotPassword/ForgotPassword';
+import ListInfo from './pages/home/User_Home/ListInfo.js'
+import Profile from './pages/profile/Profile.js'
+import ShowAll from './pages/home/All_the_list/ShowAllList.js'
 import './App.scss';
 
 /**
@@ -34,7 +37,9 @@ export default class App extends React.Component {
                                 <RouteUnauthenticated path="/signup" component={SignUp} />
                                 <RouteUnauthenticated path="/login" component={Login} />
                                 <RouteUnauthenticated path="/forgot-password" component={ForgotPassword} />
-                                <RouteAuthenticated path="/account" component={AccountInfo} />
+                                <RouteAuthenticated path="/account" component={Profile} />
+                                <RouteAuthenticated path="/list" component={ListInfo} />
+                                <RouteAuthenticated path="/showAll" component={ShowAll} />
                                 <Route component={NotFound} />
                             </Switch>
                         </div>
