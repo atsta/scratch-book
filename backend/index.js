@@ -6,6 +6,7 @@ const dotenv = require('dotenv');
 const auth_route = require('./routes/auth');
 const user_route = require('./routes/user');
 const board_route = require('./routes/board');
+const url_route = require('./routes/url');
 
 
 dotenv.config();
@@ -23,7 +24,8 @@ app.use(express.json());
 //route middlewares
 app.use('/api/user', auth_route);
 app.use('/api/users', user_route);
-app.use('/api/board', board_route);
+app.use('/api/boards', board_route);
+app.use('/api/urls', url_route);
 
 
 //server startup

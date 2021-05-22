@@ -8,7 +8,6 @@ module.exports = function (req, res) {
 
     try {
         const verified = jwt.verify(token, process.env.TOKEN_SECRET);
-        //console.log(verified);
         return verified;
         
     } catch (error) {

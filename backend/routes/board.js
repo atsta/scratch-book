@@ -5,24 +5,47 @@ const Board = require('../models/Board');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 
+//get a board by id
+router.get('/get/:boardId', async (req, res) => {
+    const verified = verify(req, res);
+
+    try {
+        const verified = verify(req, res);
+
+        const board = await Board.findOne({ _id: req.params.boardId });
+        if (board == null) 
+            res.json({ message: "Board does not exist" });
+
+        res.json({  title: board.title, 
+                    is_public: board.is_public, 
+                    comment: board.comment,
+                    webpages: board.webpages, 
+                    ratings: board.ratings });
+
+    } catch (err) {
+        res.json({ error: err });
+    }
+});
+
 //add new board
-router.post('/add', async (req, res) => {    
+router.post('/', async (req, res) => {    
     const verified = verify(req, res);
 
     //input validation 
     const validation_result = new_board_validation(req.body); 
     if (validation_result.error) 
-        return res.status(400).send(validation_result.error.details[0].message);
+        return res.json({ message: validation_result.error.details[0].message });
 
     try {
         //check if title already exists
         const exists = await Board.findOne({ title: req.body.title });
         if (exists) 
-            return res.status(400).send("Title already exists");
+            return res.json({ message: "Title already exists" });
 
         const board = new Board({
             title: req.body.title, 
-            is_public: req.body.is_public
+            is_public: req.body.is_public,
+            comment: req.body.comment
         });
 
         const board_save = await board.save();
@@ -33,10 +56,11 @@ router.post('/add', async (req, res) => {
             { $push: { owned : board_save._id }}
         );
 
-        res.send({ board: board_save._id, user: verified.sub });
+        res.json({ board: board_save._id, 
+                    user: verified.sub });
         
     } catch(err) {
-        res.status(400).send(err);
+        res.json({ error: err });
     }
 });
 
@@ -47,25 +71,24 @@ router.delete('/delete', async (req, res) => {
         //check if title already exists
         const board = await Board.findOne({ title: req.body.title });
         if (!board) 
-            return res.status(400).send("Board does not exist");
+            return res.json({ message: "Board does not exist" });
     
         const board_delete = await board.deleteOne({ title: req.body.title });
 
         //todo: remove references and check ownership
         
     } catch(err) {
-        res.status(400).send(err);
+        res.json({ error: err });
     }
 });
 
-router.patch('/update/:boardId', async (req, res) => {    
+router.put('/:boardId', async (req, res) => {    
     const verified = verify(req, res);
 
     //input validation 
     const validation_result = new_board_validation(req.body); 
     if (validation_result.error) 
-        return res.status(400).send(validation_result.error.details[0].message);
-
+        return res.json({ message: validation_result.error.details[0].message });
     //todo: remove references and check ownership
     
     // if (!verified.owned.includes(req.params.boardId)) 
@@ -73,18 +96,21 @@ router.patch('/update/:boardId', async (req, res) => {
 
     try {
         //check if title already exists
-        const board = await Board.findOne({ _id: req.params.boardId });
-        if (!board) 
-            return res.status(400).send("Board does not exist");
-    
-        const board_update = await board.updateOne(
-                            { title: req.body.title }, 
-                            { is_public: req.body.is_public});
- 
-        res.send({ board: board_update._id });
+        const board = await Board.findOne({ title: req.body.title });
+        if (board) 
+            return res.json({ message: "Title already exists" });
+
+        board = await Board.findOne({ _id: req.params.boardId });
+
+        const board_update = await board.updateOne( {
+                                title: req.body.title,
+                                is_public: req.body.is_public, 
+                                comment: req.body.comment});
+
+        res.json({ board: board._id });
         
     } catch(err) {
-        res.status(400).send(err);
+        res.json({ error: err });
     }
 });
 
@@ -93,27 +119,28 @@ router.post('/follow', async (req, res) => {
     const verified = verify(req, res);
 
     try {
-    //check if title already exists
-    const board = await Board.findOne({title: req.body.title});
+        //check if title already exists
+        const board = await Board.findOne({title: req.body.title});
 
-    if (!board)
-        return res.status(400).send("Board does not exist");
+        if (!board)
+            return res.json({ message: "Board does not exist" });
 
-    const user = await User.findOne({_id: verified.sub});
+        const user = await User.findOne({_id: verified.sub});
 
-    if (user.followed.includes(board._id)) 
-        return res.status(400).send("Already following this board");
+        if (user.followed.includes(board._id)) 
+            return res.json({ message: "Already following this board" });
 
-    //connect new board to the user 
-    await User.updateOne(
-        { _id: verified.sub },  
-        { $push: { followed : board._id }}
-    );
-    
-    res.send({ board: board._id, user: verified.sub });
-    
+        //connect new board to the user 
+        await User.updateOne(
+            { _id: verified.sub },  
+            { $push: { followed : board._id }}
+        );
+        
+        res.json({ board: board._id, 
+                    user: verified.sub });
+        
     } catch(err) {
-        res.status(400).send(err);
+        res.json({ error: err });
     }
 });
 
@@ -122,12 +149,20 @@ router.get('/followed', async (req, res) => {
     const verified = verify(req, res);
 
     try {
-        const user = await User.findOne({_id: verified.sub});
+        const user = await User.findOne({ _id: verified.sub });
 
         if (!user.followed)
-            res.send("Does not follow any board");
+            res.json({ message: "Does not follow any board" });
+        
+        const followed_boards = [];
+        for (const board_id of user.followed) {
+            const board = await Board.findOne({ _id: board_id });
+            if (board != null)
+                followed_boards.push(board);
+        }
 
-        res.send({ following: user.followed });
+        res.json({ following: followed_boards });
+
 
     } catch (err) {
         res.json({ message: err });
@@ -139,12 +174,19 @@ router.get('/owned', async (req, res) => {
     const verified = verify(req, res);
 
     try {
-        const user = await User.findOne({_id: verified.sub});
+        const user = await User.findOne({ _id: verified.sub });
         
         if (!user.owned)
-            res.send("Does not own any board");
+            res.json({ message: "Does not own any board" });
 
-        res.send({ owning: user.owned });
+        const owning_boards = [];
+        for (const board_id of user.owned) {
+            const board = await Board.findOne({ _id: board_id });
+            if (board != null)
+                owning_boards.push(board);
+        }
+
+        res.json({ owning: owning_boards});
 
     } catch (err) {
         res.json({ message: err });

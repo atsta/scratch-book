@@ -7,6 +7,10 @@ const board_schema = new mongoose.Schema({
         max: 255, 
         min: 6
     },
+    comment: {
+        type: String, 
+        max: 500
+    },
     is_public: {
         type: Boolean, 
         required: true, 

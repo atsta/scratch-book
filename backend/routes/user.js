@@ -1,9 +1,12 @@
 const router = require('express').Router(); 
 const verify = require('./verification');
 const User = require('../models/User');
+const { update } = require('../models/User');
 
 router.get('/', async (req, res) => {
     try {
+        const verified = verify(req, res);
+
         const users = await User.find();
         res.json(users);
     } catch (err) {
@@ -11,34 +14,56 @@ router.get('/', async (req, res) => {
     }
 });
 
-//('/:userId', verify, async (req, res)
 router.get('/:userId', async (req, res) => {
     try {
+        const verified = verify(req, res);
+
         const user = await User.findById(req.params.userId);
+        if (user == null) {
+            res.json({ message: "User does not exist" });
+        }
+
         res.json(user);
     } catch (err) {
         res.json({ message: err });
     }
 });
 
-//('/:userId', verify, async (req, res)
 router.delete('/:userId', async (req, res) => {
     try {
-        const removed_user = await User.deleteOne({ _id: req.params.userId });
+        const verified = verify(req, res);
+
+        const user = await User.findById(req.params.userId);
+        if (user == null) {
+            res.json({ message: "User does not exist" });
+        }
+
+        const removed_user = await User.deleteOne({ _id: user._id });
+
         res.json(removed_user);
     } catch (err) {
         res.json({ message: err });
     }
 });
 
-//('/:userId', verify, async (req, res)
-router.patch('/:userId', async (req, res) => {
+router.put('/:userId', async (req, res) => {
     try {
-        const updated_user = await User.updateOne(
-            { _id: req.params.userId }, 
+        const verified = verify(req, res);
+
+        const user = await User.findById(req.params.userId);
+        if (user == null) {
+            res.json({ message: "User does not exist" });
+        }
+
+        await User.updateOne(
+            { _id: user._id }, 
             { $set: { name: req.body.name }}
         );
-        res.json(updated_user);
+
+        const updated_user = await User.findById(req.params.userId);
+
+        res.json( {id: updated_user._id, 
+                    new_name: updated_user.name } );
     } catch (err) {
         res.json({ message: err });
     }
