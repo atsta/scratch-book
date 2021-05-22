@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "30ee8ee5-e652-4272-845a-f8adb306c61e",
+		"_postman_id": "3c037041-2205-4200-9ddb-3c4bd14d164c",
 		"name": "Scratch Book API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -102,12 +102,11 @@
 					{
 						"key": "auth-token",
 						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDZlZDlmMWI1MWFkMWQ3NTQ0YjEzYWQiLCJpYXQiOjE2MTkwMjU1ODZ9.hf5jwfxhd7t6cR9P6qEfAfEm51LltAgD1o1NIxRV-as",
-						"type": "text",
-						"disabled": true
+						"type": "text"
 					}
 				],
 				"url": {
-					"raw": "http://localhost:3000/api/users/60807069f02faaee006422b8",
+					"raw": "http://localhost:3000/api/users/606ed9c9794b3fdaf423e422",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -116,7 +115,7 @@
 					"path": [
 						"api",
 						"users",
-						"60807069f02faaee006422b8"
+						"606ed9c9794b3fdaf423e422"
 					]
 				}
 			},
@@ -130,12 +129,11 @@
 					{
 						"key": "auth-token",
 						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDZlZDlmMWI1MWFkMWQ3NTQ0YjEzYWQiLCJpYXQiOjE2MTkwMjU1ODZ9.hf5jwfxhd7t6cR9P6qEfAfEm51LltAgD1o1NIxRV-as",
-						"type": "text",
-						"disabled": true
+						"type": "text"
 					}
 				],
 				"url": {
-					"raw": "http://localhost:3000/api/users/60807069f02faaee006422b8",
+					"raw": "http://localhost:3000/api/users/60807069f02faaee00642222",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -144,7 +142,7 @@
 					"path": [
 						"api",
 						"users",
-						"60807069f02faaee006422b8"
+						"60807069f02faaee00642222"
 					]
 				}
 			},
@@ -153,11 +151,17 @@
 		{
 			"name": "Update User",
 			"request": {
-				"method": "PATCH",
-				"header": [],
+				"method": "PUT",
+				"header": [
+					{
+						"key": "auth-token",
+						"value": "{{auth-token}}",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Test Update\"\r\n}",
+					"raw": "{\r\n    \"name\": \"Athena2\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -165,13 +169,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{BaseURL}}/users/607482dc45a8385ac85018d2",
+					"raw": "{{BaseURL}}/users/606ed9c9794b3fdaf423e194",
 					"host": [
 						"{{BaseURL}}"
 					],
 					"path": [
 						"users",
-						"607482dc45a8385ac85018d2"
+						"606ed9c9794b3fdaf423e194"
 					]
 				}
 			},
@@ -190,7 +194,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"title\": \"newboard2\", \r\n    \"is_public\": true\r\n}",
+					"raw": "{\r\n    \"title\": \"newboard29\", \r\n    \"is_public\": true, \r\n    \"comment\": \"comment1\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -198,13 +202,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{BaseURL}}/board/add",
+					"raw": "{{BaseURL}}/boards",
 					"host": [
 						"{{BaseURL}}"
 					],
 					"path": [
-						"board",
-						"add"
+						"boards"
 					]
 				}
 			},
@@ -223,7 +226,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"title\": \"newboard\"\r\n}",
+					"raw": "{\r\n    \"title\": \"newboardTestUpdate\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -231,12 +234,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{BaseURL}}/board/follow",
+					"raw": "{{BaseURL}}/boards/follow",
 					"host": [
 						"{{BaseURL}}"
 					],
 					"path": [
-						"board",
+						"boards",
 						"follow"
 					]
 				}
@@ -255,12 +258,12 @@
 					}
 				],
 				"url": {
-					"raw": "{{BaseURL}}/board/followed",
+					"raw": "{{BaseURL}}/boards/followed",
 					"host": [
 						"{{BaseURL}}"
 					],
 					"path": [
-						"board",
+						"boards",
 						"followed"
 					]
 				}
@@ -279,12 +282,12 @@
 					}
 				],
 				"url": {
-					"raw": "{{BaseURL}}/board/owned",
+					"raw": "{{BaseURL}}/boards/owned",
 					"host": [
 						"{{BaseURL}}"
 					],
 					"path": [
-						"board",
+						"boards",
 						"owned"
 					]
 				}
@@ -325,9 +328,9 @@
 			"response": []
 		},
 		{
-			"name": "New Request",
+			"name": "Update Board",
 			"request": {
-				"method": "PATCH",
+				"method": "PUT",
 				"header": [
 					{
 						"key": "auth-token",
@@ -337,7 +340,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"title\": \"newboard2\", \r\n    \"is_public\": true\r\n}",
+					"raw": "{\r\n    \"title\": \"newboardTestUpdate\", \r\n    \"is_public\": false,\r\n    \"comment\": \"new comment\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -345,14 +348,100 @@
 					}
 				},
 				"url": {
-					"raw": "{{BaseURL}}/board/update/609c301684db2f32f8cd5f9e",
+					"raw": "{{BaseURL}}/boards/60a940eeb5ed843788dbd823",
 					"host": [
 						"{{BaseURL}}"
 					],
 					"path": [
-						"board",
-						"update",
-						"609c301684db2f32f8cd5f9e"
+						"boards",
+						"60a940eeb5ed843788dbd823"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Board",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "auth-token",
+						"value": "{{auth-token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BaseURL}}/boards/get/60a940eeb5ed843788dbd823",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"boards",
+						"get",
+						"60a940eeb5ed843788dbd823"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add URL to Board",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "auth-token",
+						"value": "{{auth-token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"url\": \"testURL\",\r\n    \"comment\": \"testComment\"\r\n}"
+				},
+				"url": {
+					"raw": "{{BaseURL}}/urls/60a940eeb5ed843788dbd823",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"urls",
+						"60a940eeb5ed843788dbd823"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get URLs",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "auth-token",
+						"value": "{{auth-token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BaseURL}}/urls/60a940eeb5ed843788dbd823",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"urls",
+						"60a940eeb5ed843788dbd823"
 					]
 				}
 			},
