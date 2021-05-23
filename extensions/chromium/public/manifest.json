@@ -3,6 +3,9 @@
   "description": "Base Level Extension",
   "version": "1.0",
   "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
   "action": {
     "default_popup": "index.html",
     "default_title": "hello title",
@@ -11,10 +14,11 @@
   "commands": {
     "_execute_action": {
       "suggested_key": {
-        "default": "Ctrl+Shift+F",
-        "mac": "MacCtrl+Shift+F"
+        "default": "Alt+P",
+        "mac": "Alt+P"
       },
       "description": "Opens hello.html"
     }
-  }
+  },
+  "permissions": ["activeTab", "scripting"]
 }
