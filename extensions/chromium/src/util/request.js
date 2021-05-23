@@ -1,4 +1,6 @@
-const Promise = require('bluebird');
+import Promise from 'bluebird';
+
+Promise.config({ cancellation: true });
 
 export function getJson(url, options) {
 

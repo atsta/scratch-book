@@ -1,6 +1,6 @@
 {
-  "name": "Hello Extensions",
-  "description": "Base Level Extension",
+  "name": "ScratchBook Extension",
+  "description": "ScratchBook Extension",
   "version": "1.0",
   "manifest_version": 3,
   "background": {
@@ -8,8 +8,8 @@
   },
   "action": {
     "default_popup": "index.html",
-    "default_title": "hello title",
-    "default_icon": "icon_16.png"
+    "default_title": "ScratchBook",
+    "default_icon": "icon_32.png"
   },
   "commands": {
     "_execute_action": {
