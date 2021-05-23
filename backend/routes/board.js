@@ -14,16 +14,16 @@ router.get('/get/:boardId', async (req, res) => {
 
         const board = await Board.findOne({ _id: req.params.boardId });
         if (board == null) 
-            res.json({ message: "Board does not exist" });
+            return res.json({ message: "Board does not exist" });
 
-        res.json({  title: board.title, 
+        return res.json({  title: board.title, 
                     is_public: board.is_public, 
                     comment: board.comment,
                     webpages: board.webpages, 
                     ratings: board.ratings });
 
     } catch (err) {
-        res.json({ error: err });
+        return res.json({ error: err });
     }
 });
 
@@ -56,11 +56,11 @@ router.post('/', async (req, res) => {
             { $push: { owned : board_save._id }}
         );
 
-        res.json({ board: board_save._id, 
+        return res.json({ board: board_save._id, 
                     user: verified.sub });
         
     } catch(err) {
-        res.json({ error: err });
+        return res.json({ error: err });
     }
 });
 
@@ -78,7 +78,7 @@ router.delete('/delete', async (req, res) => {
         //todo: remove references and check ownership
         
     } catch(err) {
-        res.json({ error: err });
+        return res.json({ error: err });
     }
 });
 
@@ -96,21 +96,21 @@ router.put('/:boardId', async (req, res) => {
 
     try {
         //check if title already exists
-        const board = await Board.findOne({ title: req.body.title });
+        var board = await Board.findOne({ title: req.body.title });
         if (board) 
             return res.json({ message: "Title already exists" });
 
         board = await Board.findOne({ _id: req.params.boardId });
 
-        const board_update = await board.updateOne( {
+        var board_update = await board.updateOne( {
                                 title: req.body.title,
                                 is_public: req.body.is_public, 
                                 comment: req.body.comment});
 
-        res.json({ board: board._id });
+        return res.json({ board: board._id });
         
     } catch(err) {
-        res.json({ error: err });
+        return res.json({ error: err });
     }
 });
 
@@ -136,11 +136,11 @@ router.post('/follow', async (req, res) => {
             { $push: { followed : board._id }}
         );
         
-        res.json({ board: board._id, 
+        return res.json({ board: board._id, 
                     user: verified.sub });
         
     } catch(err) {
-        res.json({ error: err });
+        return res.json({ error: err });
     }
 });
 
@@ -152,7 +152,7 @@ router.get('/followed', async (req, res) => {
         const user = await User.findOne({ _id: verified.sub });
 
         if (!user.followed)
-            res.json({ message: "Does not follow any board" });
+            return res.json({ message: "Does not follow any board" });
         
         const followed_boards = [];
         for (const board_id of user.followed) {
@@ -161,11 +161,11 @@ router.get('/followed', async (req, res) => {
                 followed_boards.push(board);
         }
 
-        res.json({ following: followed_boards });
+        return res.json({ following: followed_boards });
 
 
     } catch (err) {
-        res.json({ message: err });
+        return res.json({ message: err });
     }
 });
 
@@ -177,7 +177,7 @@ router.get('/owned', async (req, res) => {
         const user = await User.findOne({ _id: verified.sub });
         
         if (!user.owned)
-            res.json({ message: "Does not own any board" });
+            return res.json({ message: "Does not own any board" });
 
         const owning_boards = [];
         for (const board_id of user.owned) {
@@ -186,10 +186,10 @@ router.get('/owned', async (req, res) => {
                 owning_boards.push(board);
         }
 
-        res.json({ owning: owning_boards});
+        return res.json({ owning: owning_boards});
 
     } catch (err) {
-        res.json({ message: err });
+        return res.json({ message: err });
     }
 });
 

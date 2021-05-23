@@ -12,7 +12,7 @@ router.post('/:boardId', async (req, res) => {
     try {
         const board = await Board.findOne({ _id: req.params.boardId });
         if (board == null) 
-            res.json({ message: "Board does not exist" });
+            return res.json({ message: "Board does not exist" });
 
         //check if user owns the board
         const user = await User.findOne({_id: verified.sub});
@@ -30,9 +30,9 @@ router.post('/:boardId', async (req, res) => {
             }
         );
                 
-        res.json({ board_id: board._id});   
+        return res.json({ board_id: board._id});   
     } catch(err) {
-        res.json(err);
+        return res.json(err);
     }
 });
 
@@ -41,12 +41,26 @@ router.get('/:boardId', async (req, res) => {
     try {
         const board = await Board.findOne({ _id: req.params.boardId });
         if (board == null) 
-            res.json({ message: "Board does not exist" });
+            return res.json({ message: "Board does not exist" });
 
-        res.json({ board_id: board._id,
+        return res.json({ board_id: board._id,
             URLS: board.webpages });
     } catch (err) {
-        res.json(err);
+        return res.json(err);
+    }
+ });
+
+ //delete a url from a board 
+ router.put('/:boardId', async (req, res) => {  
+    try {
+        const board = await Board.findOne({ _id: req.params.boardId });
+        if (board == null) 
+            return res.json({ message: "Board does not exist" });
+
+        return res.json({ board_id: board._id,
+            URLS: board.webpages });
+    } catch (err) {
+        return res.json(err);
     }
  });
 
