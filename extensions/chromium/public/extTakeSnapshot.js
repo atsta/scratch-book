@@ -1,5 +1,5 @@
 
-async function ExtSelect() {
+async function extTakeSnapshot() {
 
     const html2canvasContainer = {};
 
@@ -7230,6 +7230,8 @@ async function ExtSelect() {
 
     function end(doCollect = true) {
 
+        // TODO: handle scrolled views.
+
         if(doCollect) {
             const bbox = selectionRect.getBoundingClientRect();
             const domSubTree = collect(bbox);
@@ -7254,6 +7256,7 @@ async function ExtSelect() {
                     // console.log(html, screenshot);
 
                     chrome.runtime.sendMessage({
+                        id: 'SNAPSHOT_TAKEN',
                         status: 'ok',
                         html,
                         screenshot,
@@ -7261,6 +7264,7 @@ async function ExtSelect() {
                 })
                 .catch(error => {
                     chrome.runtime.sendMessage({
+                        id: 'SNAPSHOT_TAKEN',
                         status: 'error',
                         message: error.message,
                     });
