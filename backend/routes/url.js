@@ -15,7 +15,7 @@ router.post('/:boardId', async (req, res) => {
             return res.json({ message: "Board does not exist" });
 
         //check if user owns the board
-        const user = await User.findOne({_id: verified.sub});
+        const user = await User.findOne({ _id: verified.sub });
 
         if (!user.owned.includes(board._id)) 
             return res.json({ message:"Does not own the board" });
@@ -38,6 +38,8 @@ router.post('/:boardId', async (req, res) => {
 
 //get the urls of a board
 router.get('/:boardId', async (req, res) => {  
+    const verified = verify(req, res);
+
     try {
         const board = await Board.findOne({ _id: req.params.boardId });
         if (board == null) 
@@ -50,15 +52,31 @@ router.get('/:boardId', async (req, res) => {
     }
  });
 
- //delete a url from a board 
+ //remove a url from a board 
  router.put('/:boardId', async (req, res) => {  
+    const verified = verify(req, res);
+
     try {
-        const board = await Board.findOne({ _id: req.params.boardId });
+        var board = await Board.findOne({ _id: req.params.boardId });
         if (board == null) 
             return res.json({ message: "Board does not exist" });
+        
+        var urls = board.webpages;
+        for( var i = 0; i < urls.length; i++){ 
+            if ( urls[i].url === req.body.url) {
+                urls.splice(i, 1); 
+            }
+        }
+
+        await Board.updateOne(
+            { _id: board._id },  
+            { webpages : urls }
+        );
+        
+        board = await Board.findOne({ _id: req.params.boardId });
 
         return res.json({ board_id: board._id,
-            URLS: board.webpages });
+                        URLS: board.webpages });
     } catch (err) {
         return res.json(err);
     }
