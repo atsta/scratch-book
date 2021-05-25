@@ -446,6 +446,183 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Remove URL from Board",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "auth-token",
+						"value": "{{auth-token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"url\": \"testURL\"\r\n}"
+				},
+				"url": {
+					"raw": "{{BaseURL}}/urls/60a940eeb5ed843788dbd823",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"urls",
+						"60a940eeb5ed843788dbd823"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Ratings",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "auth-token",
+						"value": "{{auth-token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BaseURL}}/ratings/60a940eeb5ed843788dbd823",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"ratings",
+						"60a940eeb5ed843788dbd823"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add rating to a board",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "auth-token",
+						"value": "{{auth-token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"rating\": 3\r\n}"
+				},
+				"url": {
+					"raw": "{{BaseURL}}/ratings/60a940eeb5ed843788dbd823",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"ratings",
+						"60a940eeb5ed843788dbd823"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search by Title",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "auth-token",
+						"value": "{{auth-token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BaseURL}}/boards/search?title=Test",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"boards",
+						"search"
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "Test"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Public Boards",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "auth-token",
+						"value": "{{auth-token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BaseURL}}/boards/public",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"boards",
+						"public"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Total Rating",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "Get Shared Boards",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
 		}
 	],
 	"event": [

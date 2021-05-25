@@ -193,4 +193,63 @@ router.get('/owned', async (req, res) => {
     }
 });
 
+//boards shared with a user
+router.get('/shared', async (req, res) => {
+    const verified = verify(req, res);
+
+    try {
+        const user = await User.findOne({ _id: verified.sub });
+        
+        if (!user.owned)
+            return res.json({ message: "Does not own any board" });
+
+        const shared_boards = [];
+        for (const board_id of user.shared_with) {
+            const board = await Board.findOne({ _id: board_id });
+            if (board != null)
+                shared_boards.push(board);
+        }
+
+        return res.json({ shared_with: shared_boards});
+
+    } catch (err) {
+        return res.json({ message: err });
+    }
+});
+
+//get public boards
+router.get('/public', async (req, res) => {
+    const verified = verify(req, res);
+
+    try {
+        const public_boards = await Board.find({ is_public: true });
+        
+        return res.json(public_boards);
+    } catch (err) {
+        return res.json(err);
+    }
+});
+
+//search by title, case sensitive
+router.get('/search', async (req, res) => {  
+    const verified = verify(req, res);
+
+    try {
+        const title_param = req.query.title;
+
+        const search_result = [];
+        const public_boards = await Board.find({ is_public: true });
+        for(var board of public_boards) {
+            //to do - case insensitive
+            if(board.title.includes(title_param)) {
+                search_result.push(board);
+            }
+        }
+
+        return res.json(search_result);
+    } catch (err) {
+        return res.json(err);
+    }
+ });
+
 module.exports = router;
