@@ -82,4 +82,36 @@ router.get('/:boardId', async (req, res) => {
     }
  });
 
+ //update a url
+router.put('/editUrl/:boardId', async (req, res) => {    
+    const verified = verify(req, res);
+
+    try {
+        const board = await Board.findOne({ _id: req.params.boardId });
+        if (board == null) 
+            return res.json({ message: "Board does not exist" });
+
+        const user = await User.findOne({ _id: verified.sub });
+        if (!user.owned.includes(board._id)) 
+            return res.json({ message:"Does not own the board" });
+
+        const pos = req.body.position;
+        if(pos >= board.webpages.length)
+            return res.json({ message: "Webpage out of bounds"});
+
+        var edited_webpages = board.webpages;
+        edited_webpages[pos].url = req.body.url;
+        edited_webpages[pos].comment = req.body.comment;
+
+        await Board.updateOne(
+            { _id: board._id },  
+            { webpages: edited_webpages}
+        );
+                
+        return res.json({ board_id: board._id});   
+    } catch(err) {
+        return res.json(err);
+    }
+});
+
 module.exports = router;

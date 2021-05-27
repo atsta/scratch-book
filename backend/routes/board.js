@@ -64,18 +64,23 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.delete('/delete', async (req, res) => {    
+router.delete('/:boardId', async (req, res) => {    
     const verified = verify(req, res);
 
     try {
-        //check if title already exists
-        const board = await Board.findOne({ title: req.body.title });
+        const board = await Board.findOne({ _id: req.params.boardId });
         if (!board) 
             return res.json({ message: "Board does not exist" });
-    
-        const board_delete = await board.deleteOne({ title: req.body.title });
+        
+        const user = await User.findOne({ _id: verified.sub });
+        if(!user.owned.includes(board._id)) {
+            return res.json({ message: "Does not own the board" });
+        }
 
-        //todo: remove references and check ownership
+        const board_delete = await board.deleteOne({ _id: req.params.boardId });
+        return res.json({ deleted_id: req.params.boardId });
+
+        //todo: remove references
         
     } catch(err) {
         return res.json({ error: err });
