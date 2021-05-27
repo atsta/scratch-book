@@ -10,6 +10,16 @@ export function postJson(url, options) {
     return requestJson(url, { method: 'post', ...options });
 }
 
+export function deleteJson(url, options) {
+
+    return requestJson(url, { method: 'delete', ...options });
+}
+
+export function putJson(url, options) {
+
+    return requestJson(url, { method: 'put', ...options });
+}
+
 function requestJson(url, options) {
 
     if(options.body instanceof FormData) {
@@ -22,6 +32,7 @@ function requestJson(url, options) {
     return request(url, {
         headers: new Headers({
             'Content-Type': 'application/json; charset=utf-8',
+            'auth-token': localStorage.getItem('auth_token')
         }),
         ...options,
     });
