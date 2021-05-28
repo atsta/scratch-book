@@ -4,25 +4,26 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import { TextField } from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import Switch from '@material-ui/core/Switch';
-import DoneIcon from '@material-ui/icons/Done';
-import Box from '@material-ui/core/Box';
-import SettingsIcon from '@material-ui/icons/Settings';
+import {updateLinks} from '../../../../api.js';
 
 export default function EditLink(params) {
-    const [ Checked, setChecked ] = useState(false);
-    const [ Link, setLink ] = useState(params.item.LinkName);
-    const [ Comment, setComment ] = useState(params.item.Comment);
+    const [ Link, setLink ] = useState(params.item.url);
+    const [ Comment, setComment ] = useState(params.item.comment);
 
     
 
     function change_handle(e){
         e.preventDefault();
+
+        let item={"url":Link,"comment":Comment,"position":params.index}
+        var fdata = new FormData();
+        for ( var key in item ) {
+            fdata.append(key, item[key]);
+        }
+
+        updateLinks(params.b_id,fdata)
         params.changeItem(params.index,Link,Comment)
         params.close_dialog()
     }

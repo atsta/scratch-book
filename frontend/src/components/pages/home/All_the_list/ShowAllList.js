@@ -1,6 +1,5 @@
 import React from 'react';
-import User_Home from '../User_Home/User_Home.js';
-import { Link, useHistory } from 'react-router-dom';
+import UserHome from '../User_Home/User_Home.js';
 /**
  *
  */
@@ -19,7 +18,7 @@ export default function ShowAll(params){
 
     return (
         <div className="text-whit">
-            <User_Home boards={data} private={params.location.state.private} ></User_Home>
+            <UserHome boards={data} private={params.location.state.private} ></UserHome>
         </div>
         
     );

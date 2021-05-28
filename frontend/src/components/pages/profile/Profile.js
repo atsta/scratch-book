@@ -2,16 +2,11 @@ import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import TextField from '@material-ui/core/TextField';
-import CardActionArea from "@material-ui/core/CardActionArea";
-import { Link } from 'react-router-dom';
 import List from '@material-ui/core/List';
 import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
 import SettingsIcon from '@material-ui/icons/Settings';
 
-import Change_prof from './Change_prof.js';
+import ChangeProf from './Change_prof.js';
 
 import './profile.css';
 
@@ -28,13 +23,13 @@ export default function Profile() {
     function handle_show_ch(){
         if (Open_change===true){
             return(
-                <Change_prof
+                <ChangeProf
                     handleClose={setOpen_change}
                     Username={Username}
                     Email={Email}
                     changeEmail={setEmail}
                     changeUsername={setUsername}
-                ></Change_prof>
+                ></ChangeProf>
             )
         } 
     }
@@ -44,7 +39,7 @@ export default function Profile() {
             <Grid container>
                 <Grid item xs={12} sm={2}></Grid>
                 <Grid item xs={12} sm={8} align="center">
-                <img className= "prof_image"  src={Image} />
+                <img className= "prof_image" alt="Standard profile pic" src={Image} />
                     <List>
                         <ListItemText  primary={
                             <React.Fragment>

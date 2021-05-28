@@ -6,11 +6,12 @@ import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
 import Rating from '@material-ui/lab/Rating';
 import {Button} from '@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
-import SettingsIcon from '@material-ui/icons/Settings';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import AddIcon from '@material-ui/icons/Add';
 import { makeStyles } from "@material-ui/core/styles";
-import Edit_Boards from './Edit_Boards.js';
+import AddBoards from './AddBoard.js';
+import DeleteIcon from '@material-ui/icons/Delete';
+import {addBoard, deleteBoard} from '../../../../api.js';
 
 import './User_Home.css';
 
@@ -28,7 +29,7 @@ export default function User_Home(params) {
 
     const classes=useStyles();
     let history = useHistory();
-    const [ Open_edit, setOpen_edit ] = useState(false);
+    const [ Open_add, setOpen_add ] = useState(false);
 
     function show_rating(rate){
         if(rate!==-1 && params.private!=="True"){
@@ -41,12 +42,49 @@ export default function User_Home(params) {
     function show_edit(rate){
         if(params.private==="True"){
             return(
-                <Button onClick={()=>{setOpen_edit(true)}} style={{color: "white"}} endIcon={<SettingsIcon/>}>
-                    Edit my Boards
+                <Button onClick={()=>{setOpen_add(true)}} style={{color: "white"}} endIcon={<AddIcon/>}>
+                    Add new Board
                 </Button>
             )
         }
     }   
+
+    function addaBoard(title,comment){
+        let item={title: title , is_public:false,comment:comment }
+        var fdata = new FormData();
+        for ( var key in item ) {
+            fdata.append(key, item[key]);
+        }
+        let newArr = [...params.boards];
+        addBoard(fdata)
+        newArr.push(item);
+        params.changeBoards(newArr);
+    }
+
+    function deleteaBoard(item, index){
+        
+        let newArr=[...params.boards];
+        var fdata = new FormData();
+        fdata.append("title", item.title);
+        deleteBoard(item._id,fdata);
+        newArr.splice(index, 1);
+        console.log(newArr);
+        params.changeBoards(newArr);
+        
+        
+    }
+
+    function handle_show_add(){
+        if (Open_add===true){
+            return(
+                <AddBoards
+                handleClose={setOpen_add}
+                addnewBoard={addaBoard}
+                >
+                </AddBoards>
+            )
+        } 
+    }
     
     function show_Title(){
         if(params.private==="True"){
@@ -83,6 +121,19 @@ export default function User_Home(params) {
             });
     }
 
+    function handle_deleteBoard(item,index){
+        if (params.private==="True"){
+            return(
+                <div>                    
+                    <Button onClick={()=>{deleteaBoard(item,index)}} endIcon={<DeleteIcon/>}>
+                    
+                    </Button>
+                </div>
+                
+            )
+        }
+    }
+
     return (
         <div className="text-white">
             <Grid container>
@@ -115,18 +166,19 @@ export default function User_Home(params) {
                                 <Grid container>
                                     <Grid item xs={6}>
                                     <Button className={classes.buttonStyle} onClick={()=>show_list(item)} color="inherit">
-                                        <Box fontSize="1.5rem">{item.BoardsName}</Box>
+                                        <Box fontSize="1.5rem">{item.title}</Box>
                                     </Button>
                                         
                                     </Grid>
                                     <Grid item xs={6} align="right">
                                         {show_rating(item.rating)}
+                                        {handle_deleteBoard(item,index)}
                                     </Grid>
                                 </Grid>
                                 <TextField
                                 style={{height:"auto"}}
                                 //id="standard-disabled"
-                                defaultValue={item.Comment}
+                                defaultValue={item.comment}
                                 fullWidth
                                 label="Comment"
                                 variant="outlined"
@@ -139,7 +191,7 @@ export default function User_Home(params) {
                             })
                         }
                 
-               
+                        {handle_show_add()}
                 </Grid>
                 <Grid item xs={12} sm={2}>
 

@@ -8,13 +8,13 @@ import Faq from './pages/faq/Faq';
 import About from './pages/about/About';
 import AppBar from './appBar/AppBar';
 import NotFound from './pages/notFound/NotFound';
-import AccountInfo from './pages/accountInfo/AccountInfo';
 import SignUp from './pages/signup/SignUp';
 import Login from './pages/login/Login';
 import ForgotPassword from './pages/forgotPassword/ForgotPassword';
 import ListInfo from './pages/home/User_Home/ListInfo.js'
 import Profile from './pages/profile/Profile.js'
 import ShowAll from './pages/home/All_the_list/ShowAllList.js'
+import Search from './pages/Search/Search_Results.js';
 import './App.scss';
 
 /**
@@ -40,6 +40,7 @@ export default class App extends React.Component {
                                 <RouteAuthenticated path="/account" component={Profile} />
                                 <RouteAuthenticated path="/list" component={ListInfo} />
                                 <RouteAuthenticated path="/showAll" component={ShowAll} />
+                                <RouteAuthenticated path="/search" component={Search} />
                                 <Route component={NotFound} />
                             </Switch>
                         </div>

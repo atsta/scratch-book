@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import {Navbar, Nav,NavItem, NavDropdown, MenuItem} from  'react-bootstrap';
-import Button from 'react-bootstrap';
-import Form from 'react-bootstrap';
+import {Navbar, Nav,NavItem} from  'react-bootstrap';
 import SearchBar from './SearchBar/SearchBar.js';
 import UserSection from './UserSection';
 import './AppBar.scss';

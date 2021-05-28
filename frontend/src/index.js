@@ -10,8 +10,8 @@ import App from './components/App';
 Promise.config({ cancellation: true });
 
 ReactDOM.render(
-    <React.StrictMode>
+    <>
         <App/>
-    </React.StrictMode>,
+    </>,
     document.getElementById('root')
 );
