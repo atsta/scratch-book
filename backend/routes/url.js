@@ -61,12 +61,12 @@ router.get('/:boardId', async (req, res) => {
         if (board == null) 
             return res.json({ message: "Board does not exist" });
         
+        const pos = req.body.position;
+        if(pos >= board.webpages.length)
+            return res.json({ message: "Webpage out of bounds"});
+
         var urls = board.webpages;
-        for( var i = 0; i < urls.length; i++){ 
-            if ( urls[i].url === req.body.url) {
-                urls.splice(i, 1); 
-            }
-        }
+        urls.splice(req.body.position, 1); 
 
         await Board.updateOne(
             { _id: board._id },  
