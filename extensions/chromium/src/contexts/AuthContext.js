@@ -21,6 +21,18 @@ export function useAuth() {
 }
 
 /**
+ *
+ */
+export function withAuth(Component) {
+
+    return (props) => (
+        <AuthContext.Consumer>{value =>
+            <Component {...props} auth={value} />
+        }</AuthContext.Consumer>
+    );
+}
+
+/**
  * Ideally should use "chrome.storage" API instead of "localStorage". But it works fine either way.
  */
 export class AuthProvider extends React.Component {
