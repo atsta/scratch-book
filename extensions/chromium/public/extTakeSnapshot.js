@@ -7231,8 +7231,6 @@ async function extTakeSnapshot() {
 
     function end(doCollect = true) {
 
-        // TODO: handle scrolled views.
-
         if(doCollect) {
             const bbox = selectionRect.getBoundingClientRect();
             const domSubTree = collect(bbox);
@@ -7242,9 +7240,8 @@ async function extTakeSnapshot() {
                 width: bbox.width,
                 height: bbox.height,
                 scrollX: window.scrollX,
-                scrollY: window.scrollY,
+                scrollY: -window.scrollY,
             };
-            // console.log([selectionRect]);
 
             disableEventHandlers();
             disableSelectionRect();
@@ -7254,7 +7251,6 @@ async function extTakeSnapshot() {
                 .then(canvas => {
                     const html = domSubTree?.outerHTML;
                     const screenshot = canvas.toDataURL();
-                    // console.log(html, screenshot);
 
                     chrome.runtime.sendMessage({
                         id: 'SNAPSHOT_TAKEN',
