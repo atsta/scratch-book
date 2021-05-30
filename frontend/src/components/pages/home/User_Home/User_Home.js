@@ -10,10 +10,14 @@ import { useHistory } from 'react-router-dom';
 import AddIcon from '@material-ui/icons/Add';
 import { makeStyles } from "@material-ui/core/styles";
 import AddBoards from './AddBoard.js';
+import RemoveIcon from '@material-ui/icons/Remove';
 import DeleteIcon from '@material-ui/icons/Delete';
-import {addBoard, deleteBoard} from '../../../../api.js';
+import Avatar from '@material-ui/core/Avatar';
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import {addBoard, deleteBoard, FollowBoard, UnfollowBoard} from '../../../../api.js';
 
 import './User_Home.css';
+import zIndex from '@material-ui/core/styles/zIndex';
 
 
 const useStyles=makeStyles({
@@ -31,10 +35,59 @@ export default function User_Home(params) {
     let history = useHistory();
     const [ Open_add, setOpen_add ] = useState(false);
 
+
+    function handle_unfollow(item, index){
+        if(params.unfollow==="True"){
+            return(
+                <div>
+                    <Button onClick={()=>{unfollowaBoard(item, index)}} style={{color: "red"}} startIcon={<RemoveIcon/>}>
+                        Unfollow Board
+                    </Button>
+                </div>
+                
+            )
+        }
+    }
+
+    function unfollowaBoard(item,comment){
+        var fdata = new FormData();
+        fdata.append("title", item["title"]);
+
+        UnfollowBoard(fdata)
+
+    }
+
+    function handle_follow(item, index){
+        if(params.follow==="True"){
+            return(
+                <div>
+                    <Button onClick={()=>{followaBoard(item, index)}} style={{color: "white"}} endIcon={<AddIcon/>}>
+                        Follow Board
+                    </Button>
+                </div>
+                
+            )
+        }
+    }
+
+    function followaBoard(item,comment){
+        var fdata = new FormData();
+        fdata.append("title", item["title"]);
+
+        FollowBoard(fdata)
+
+    }
+
     function show_rating(rate){
         if(rate!==-1 && params.private!=="True"){
             return(
-                <Rating defaultValue={rate} precision={0.5} readOnly/>
+                <div>
+                    <Rating defaultValue={rate} precision={0.5} readOnly/>
+                    <Typography variant="h6" color="textSecondary" style={{display: 'inline-block'}}>
+                        (Nan)
+                    </Typography>
+                </div>
+                
             )
         }
     }   
@@ -121,14 +174,32 @@ export default function User_Home(params) {
             });
     }
 
+    function p_color(item){
+        if(item.is_public===true){
+            return "green"
+        }
+        else{
+            return "red"
+        }
+    }
+
     function handle_deleteBoard(item,index){
         if (params.private==="True"){
             return(
-                <div>                    
-                    <Button onClick={()=>{deleteaBoard(item,index)}} endIcon={<DeleteIcon/>}>
-                    
-                    </Button>
-                </div>
+                <Grid container >
+                    <Grid item xs={12} sm={10}>
+                        
+                            <span>Public:</span>
+                            <FiberManualRecordIcon style={{color:p_color(item)}}></FiberManualRecordIcon>
+                        
+                          
+                    </Grid>
+                    <Grid item xs={12} sm={2}>
+                        <Button onClick={()=>{deleteaBoard(item,index)}} endIcon={<DeleteIcon/>}>
+                        
+                        </Button>
+                    </Grid>
+                </Grid>
                 
             )
         }
@@ -164,15 +235,18 @@ export default function User_Home(params) {
                         return(
                             <div key={index}>
                                 <Grid container>
-                                    <Grid item xs={6}>
+                                    <Grid item xs={12} sm={6}>
                                     <Button className={classes.buttonStyle} onClick={()=>show_list(item)} color="inherit">
                                         <Box fontSize="1.5rem">{item.title}</Box>
                                     </Button>
                                         
                                     </Grid>
-                                    <Grid item xs={6} align="right">
+                                    <Grid item xs={12} sm={6} align="right">
+                                        {handle_follow(item,index)}
+                                        {handle_unfollow(item,index)}
                                         {show_rating(item.rating)}
                                         {handle_deleteBoard(item,index)}
+                                        
                                     </Grid>
                                 </Grid>
                                 <TextField

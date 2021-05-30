@@ -74,3 +74,33 @@ export function deleteLink(id,formData) {
         body: formData,
     });
 }
+
+export function getSearchResults(title) {
+
+    return getJson(`${apiPrefix}/boards/search?title=`+title, {
+        // body: formData,
+    });
+}
+
+export function getFollowedBoards(formData) {
+
+    return getJson(`${apiPrefix}/boards/followed`, {
+        body: formData,
+    });
+}
+
+
+export function FollowBoard(formData) {
+
+    return postJson(`${apiPrefix}/boards/follow`, {
+        body: formData,
+    });
+}
+
+
+export function UnfollowBoard(formData) {
+
+    return postJson(`${apiPrefix}/boards/follow`, {
+        body: formData,
+    });
+}

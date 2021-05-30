@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import UserHome from './User_Home/User_Home.js';
 import { useAuth } from '../../../contexts/AuthContext.js';
-import { getBoards } from '../../../api';
+import { getBoards, getFollowedBoards } from '../../../api';
 /**
  *
  */
@@ -18,11 +18,25 @@ export default function Home(){
     const { isLoggedIn } = useAuth();
 
     const [ MyBoard, setMyBoard ] = useState(null);
+    const [ FollowedBoard, setFollowedBoard ] = useState(null);
 
     useEffect(() => {
         getBoards().then(function(value) {
-            console.log(value.owning); // "Success"
-            setMyBoard(value.owning)
+            if(value!==undefined){
+                console.log(value.owning); // "Success"
+                setMyBoard(value.owning)
+            }
+            
+          }, function(value) {
+            
+            // not called
+          });
+    },[])
+
+    useEffect(() => {
+        getFollowedBoards().then(function(value) {
+            console.log(value); // "Success"
+            setFollowedBoard(value.following)
           }, function(value) {
             
             // not called
@@ -39,7 +53,15 @@ export default function Home(){
             {(isLoggedIn() && MyBoard!==null)? (
                 <div>
                     <UserHome boards={MyBoard} changeBoards={setMyBoard} private="True" ></UserHome>
-                    <UserHome boards={MyBoard} private="False" ></UserHome>
+                    { FollowedBoard!==null? (
+                        <div>
+                            <UserHome boards={FollowedBoard} private="False" unfollow="True" rate="True"></UserHome>
+                        </div>
+                    ):(
+                        <div>
+                                                
+                        </div>
+                    )}
                 </div>
             ):(
                 <div>
