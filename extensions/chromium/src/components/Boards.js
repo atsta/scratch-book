@@ -62,13 +62,14 @@ export default withAuth(class Boards extends React.Component {
                         Logout
                     </Button>
                 </div>
-                <div className="flex-grow-1 bg-white mb-2 card">
-                    <h6 className="card-header text-center">
+                <div className="flex-grow-1 bg-white mb-2 card d-flex flex-column">
+                    <h6 className="flex-shrink-0 card-header text-center">
                         Choose a board to save your snapshot to:
                     </h6>
                     {loading && <div className="text-center"><span className="mt-5 fa fa-spinner fa-spin fa-2x" /></div>}
                     {error && <div className="m-2 alert alert-danger">{error}</div>}
-                    <ul className="card-body list-unstyled overflow-auto">{boards.map((board, index) =>
+                    <ul className="flex-grow-1 card-body list-unstyled p-2 overflow-auto mb-0" style={{ maxHeight: '200px' }}>
+                    {boards.map((board, index) =>
                         <li key={index}>
                             <button className={`w-100 my-1 py-2 px-3 border-0 rounded d-flex justify-content-between
                                 align-items-center ${board === activeBoard ? 'bg-success text-white' : 'bg-light'}`}
