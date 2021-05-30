@@ -7126,7 +7126,7 @@ async function extTakeSnapshot() {
             position:        'fixed',
             opacity:         '.25',
             backgroundColor: 'blue',
-            border:          'solid 5px black',
+            border:          'none',
             zIndex:          '2147483647',
         });
 
@@ -7239,8 +7239,11 @@ async function extTakeSnapshot() {
                 y: bbox.top,
                 width: bbox.width,
                 height: bbox.height,
+                // https://github.com/niklasvh/html2canvas/issues/1878#issuecomment-511678281
                 scrollX: window.scrollX,
                 scrollY: -window.scrollY,
+                allowTaint: true,
+                useCORS: true,
             };
 
             disableEventHandlers();
