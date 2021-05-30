@@ -67,7 +67,7 @@ export default withAuth(class Boards extends React.Component {
                         Choose a board to save your snapshot to:
                     </h6>
                     {loading && <div className="text-center"><span className="mt-5 fa fa-spinner fa-spin fa-2x" /></div>}
-                    {error && <div className="alert alert-danger">{error}</div>}
+                    {error && <div className="m-2 alert alert-danger">{error}</div>}
                     <ul className="card-body list-unstyled overflow-auto">{boards.map((board, index) =>
                         <li key={index}>
                             <button className={`w-100 my-1 py-2 px-3 border-0 rounded d-flex justify-content-between
@@ -112,7 +112,8 @@ export default withAuth(class Boards extends React.Component {
                 });
             })
             .catch(error => {
-                this.setState({ error: error.message, loading: false });
+                console.log(error.message);
+                this.setState({ error: 'Failed to load boards', loading: false });
             });
     }
 
