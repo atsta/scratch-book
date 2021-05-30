@@ -15,15 +15,3 @@ export function fetchBoards() {
         .then(({ owning }) => owning);
 }
 
-export function createBoardEntry(boardId, url, html, screenshotBase64) {
-
-    const formData = new FormData();
-    formData.set('url', url);
-    formData.set('html', html);
-    formData.set('screenshotBase64', screenshotBase64);
-
-    return postJson(`${apiPrefix}/urls/${boardId}`, {
-        body: formData,
-    });
-}
-

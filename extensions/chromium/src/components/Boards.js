@@ -30,7 +30,9 @@ export default withAuth(class Boards extends React.Component {
 
     handleBoardClicked = board => {
 
+        /* eslint-disable */
         localStorage.setItem('active_board_id', board._id);
+        chrome.storage.local.set({ active_board_id: board._id });
         this.setState({ activeBoard: board });
     };
 
@@ -72,7 +74,14 @@ export default withAuth(class Boards extends React.Component {
                                 align-items-center ${board === activeBoard ? 'bg-success text-white' : 'bg-light'}`}
                                 onClick={() => this.handleBoardClicked(board)}
                             >
-                                <span>{board.title}</span>
+                                <span>
+                                    {board.title}{' '}
+                                    <span title="Number of entries"
+                                        className={`small ${board === activeBoard ? 'text-white-50' : 'text-black-50'}`}
+                                    >
+                                        ({board.webpages.length})
+                                    </span>
+                                </span>
                                 <span className={board === activeBoard ? 'fa fa-check' : ''} />
                             </button>
                         </li>

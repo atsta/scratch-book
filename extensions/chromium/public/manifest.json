@@ -20,5 +20,5 @@
       "description": "Opens hello.html"
     }
   },
-  "permissions": ["activeTab", "scripting"]
+  "permissions": ["activeTab", "scripting", "storage"]
 }

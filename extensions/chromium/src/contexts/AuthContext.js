@@ -50,7 +50,9 @@ export class AuthProvider extends React.Component {
 
         return loginUser(formData)
             .then(({ token }) => {
+                /* eslint-disable */
                 localStorage.setItem(LOCAL_STORAGE_AUTH_TOKEN_NAME, token);
+                chrome.storage.local.set({ [LOCAL_STORAGE_AUTH_TOKEN_NAME]: token });
                 this.setState({ token: jwt.decode(token) });
             });
     };
