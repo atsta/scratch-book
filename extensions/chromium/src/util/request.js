@@ -24,6 +24,7 @@ function requestJson(url, options) {
     return request(url, {
         headers: new Headers({
             'Content-Type': 'application/json; charset=utf-8',
+            'auth-token': localStorage.getItem('auth_token'),
         }),
         ...options,
     });
