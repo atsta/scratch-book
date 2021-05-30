@@ -30,6 +30,7 @@ export default withAuth(class Boards extends React.Component {
 
     handleBoardClicked = board => {
 
+        localStorage.setItem('active_board_id', board._id);
         this.setState({ activeBoard: board });
     };
 
@@ -94,7 +95,12 @@ export default withAuth(class Boards extends React.Component {
 
         this.promise = fetchBoards()
             .then(boards => {
-                this.setState({ boards, loading: false });
+                const storedActiveBoardId = localStorage.getItem('active_board_id');
+                this.setState({
+                    loading: false,
+                    boards,
+                    activeBoard: boards.find(board => board._id === storedActiveBoardId) || null,
+                });
             })
             .catch(error => {
                 this.setState({ error: error.message, loading: false });
