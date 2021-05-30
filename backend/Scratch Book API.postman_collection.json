@@ -247,6 +247,39 @@
 			"response": []
 		},
 		{
+			"name": "Unfollow Board",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "auth-token",
+						"value": "{{auth-token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"newboardTest3\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/boards/unfollow",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"boards",
+						"unfollow"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get Followed Boards",
 			"request": {
 				"method": "GET",
@@ -307,7 +340,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"title\": \"newboard2\"\r\n}",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -315,13 +348,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{BaseURL}}/board/delete",
+					"raw": "{{BaseURL}}/boards/60ac151bb76bc24b8ce834e6",
 					"host": [
 						"{{BaseURL}}"
 					],
 					"path": [
-						"board",
-						"delete"
+						"boards",
+						"60ac151bb76bc24b8ce834e6"
 					]
 				}
 			},
@@ -340,7 +373,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"title\": \"newboardTestUpdate\", \r\n    \"is_public\": false,\r\n    \"comment\": \"new comment\"\r\n}",
+					"raw": "{\r\n    \"title\": \"newboardTest3\", \r\n    \"is_public\": true,\r\n    \"comment\": \"new comment\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -348,12 +381,46 @@
 					}
 				},
 				"url": {
-					"raw": "{{BaseURL}}/boards/60a940eeb5ed843788dbd823",
+					"raw": "{{BaseURL}}/boards/60805a22bccdb6dd34bc1a3a",
 					"host": [
 						"{{BaseURL}}"
 					],
 					"path": [
 						"boards",
+						"60805a22bccdb6dd34bc1a3a"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Share Board",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "auth-token",
+						"value": "{{auth-token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"aa@aa.gr\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/boards/share/60a940eeb5ed843788dbd823",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"boards",
+						"share",
 						"60a940eeb5ed843788dbd823"
 					]
 				}
@@ -465,7 +532,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"url\": \"testURL\"\r\n}"
+					"raw": "{\r\n    \"position\": 0\r\n}"
 				},
 				"url": {
 					"raw": "{{BaseURL}}/urls/60a940eeb5ed843788dbd823",
@@ -474,6 +541,40 @@
 					],
 					"path": [
 						"urls",
+						"60a940eeb5ed843788dbd823"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit URL",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "auth-token",
+						"value": "{{auth-token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"position\": 9, \r\n    \"url\": \"testEditURl\",\r\n    \"comment\": \"edit url is working\"\r\n}"
+				},
+				"url": {
+					"raw": "{{BaseURL}}/urls/editUrl/60a940eeb5ed843788dbd823",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"urls",
+						"editUrl",
 						"60a940eeb5ed843788dbd823"
 					]
 				}
@@ -527,7 +628,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"rating\": 3\r\n}"
+					"raw": "{\r\n    \"rating\": 2\r\n}"
 				},
 				"url": {
 					"raw": "{{BaseURL}}/ratings/60a940eeb5ed843788dbd823",
