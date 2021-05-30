@@ -24,7 +24,9 @@ router.post('/:boardId', async (req, res) => {
             { _id: board._id },  
             { $push: { webpages : {
                         url: req.body.url,
-                        comment: req.body.comment
+                        comment: req.body.comment, 
+                        html: req.body.html,
+                        screenshot: req.body.screenshot
                     }
                 }
             }
