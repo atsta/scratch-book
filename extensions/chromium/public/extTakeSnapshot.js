@@ -7127,6 +7127,7 @@ async function extTakeSnapshot() {
             opacity:         '.25',
             backgroundColor: 'blue',
             border:          'solid 5px black',
+            zIndex:          '2147483647',
         });
 
         // Object.assign(div.style, {
