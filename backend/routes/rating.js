@@ -21,6 +21,34 @@ router.get('/:boardId', async (req, res) => {
     }
  });
 
+ //get the rating of a board for the user
+router.get('/user/:boardId', async (req, res) => {  
+    const verified = verify(req, res);
+
+    try {
+        const user = await User.findOne({ _id: verified.sub });
+        if (user == null) 
+            return res.json({ message: "User does not exist" });
+
+        const board = await Board.findOne({ _id: req.params.boardId });
+        if (board == null) 
+            return res.json({ message: "Board does not exist" });
+        
+        var user_rating = 0;
+        for(var board_rating of board.ratings) {
+            if(board_rating.user == user._id) {
+                user_rating = board_rating.rating;
+                break;
+            }
+        }
+
+        return res.json({ board_id: board._id,
+            rating: user_rating });
+    } catch (err) {
+        return res.json(err);
+    }
+ });
+
  //add a rating to a board
 router.post('/:boardId', async (req, res) => {    
     const verified = verify(req, res);
@@ -30,8 +58,19 @@ router.post('/:boardId', async (req, res) => {
         if (board == null) 
             return res.json({ message: "Board does not exist" });
         
-        //to do -check if user has already rate the board
+        const board_ratings = board.ratings;
+        for (i = 0; i < board_ratings.length; i++) {
+            if(board_ratings[i].user == verified.sub) {
+                board_ratings[i].rating = req.body.rating;
 
+                await Board.updateOne(
+                    { _id: board._id },  
+                    { ratings: board_ratings });
+                
+                return res.json({ board_id: board._id});   
+            }
+        }        
+        
         await Board.updateOne(
             { _id: board._id },  
             { $push: { ratings : {
