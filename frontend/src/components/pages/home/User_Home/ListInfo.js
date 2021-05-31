@@ -16,6 +16,8 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import AddIcon from '@material-ui/icons/Add';
 import TextField from '@material-ui/core/TextField';
 import {getLinks, addLink, deleteLink} from '../../../../api.js';
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+
 
 import AddLink from './AddLink.js';
 
@@ -98,11 +100,11 @@ export default function ListInfo(params) {
         let item={"position":index}
         var fdata = new FormData();
 
-        //fdata.append("position",index);
-        fdata.append("url",myLinks[index].url);
-        for (var value of fdata.values()) {
-            console.log(value);
-         }
+        fdata.append("position",index);
+        // fdata.append("url",myLinks[index].url);
+        // for (var value of fdata.values()) {
+        //     console.log(value);
+        //  }
 
         deleteLink(params.location.state.Board_info._id,fdata)
         newArray.splice(index, 1);
@@ -167,6 +169,15 @@ export default function ListInfo(params) {
         }
     }
 
+    function p_color(item){
+        if(item.is_public===true){
+            return "green"
+        }
+        else{
+            return "red"
+        }
+    }
+
     return(
         <div >
             <Grid container>
@@ -175,7 +186,15 @@ export default function ListInfo(params) {
                 <Grid item xs={12} sm={8}>
                     <Grid container>
                         <Grid item xs={12} sm={6}>
-                            <Typography className="text-white" variant="h4" align="left"><Box fontSize="1.8rem">{MyBoard.title}</Box></Typography>
+                            <Grid container>
+                                <Grid item xs={'auto'} >
+                                    <Typography className="text-white" variant="h4" align="left"><Box fontSize="1.8rem">{MyBoard.title}</Box></Typography>
+                                </Grid>
+                                <Grid item >
+                                    <FiberManualRecordIcon style={{color:p_color(MyBoard.is_public)}}></FiberManualRecordIcon>
+                                </Grid>
+                            </Grid>
+                            
                         </Grid>
                         <Grid item xs={12} sm={6} align="right">
                             {handle_edit()}
