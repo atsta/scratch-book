@@ -49,7 +49,7 @@ router.post('/', async (req, res) => {
         });
 
         const board_save = await board.save();
-
+        
         //connect new board to the user 
         await User.updateOne(
             { _id: verified.sub },  
@@ -226,7 +226,7 @@ router.get('/owned', async (req, res) => {
         for (const board_id of user.owned) {
             const board = await Board.findOne({ _id: board_id });
             if (board != null)
-                owning_boards.push(board);
+                owning_boards.push(board._id);
         }
 
         return res.json({ owning: owning_boards});
@@ -250,7 +250,7 @@ router.get('/shared', async (req, res) => {
         for (const board_id of user.shared_with) {
             const board = await Board.findOne({ _id: board_id });
             if (board != null)
-                shared_boards.push(board);
+                shared_boards.push(board._id);
         }
 
         return res.json({ shared_with: shared_boards});
