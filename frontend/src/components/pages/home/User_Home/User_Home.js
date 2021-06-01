@@ -285,17 +285,12 @@ export default function User_Home(params) {
                                         <Grid item xs={12} sm={6}>
                                             <Grid container>
                                                 <Grid item xs={12}>
-                                                    <Button className={classes.buttonStyle} onClick={()=>show_list(item)} color="inherit">
+                                                    {/*<Button className={classes.buttonStyle} onClick={()=>show_list(item)} color="inherit">*/}
+                                                    {/*    <Box fontSize="1.5rem">{item.title}</Box>*/}
+                                                    {/*</Button>*/}
+                                                    <Button className={classes.buttonStyle} onClick={()=>open_board(item)} color="inherit">
                                                         <Box fontSize="1.5rem">{item.title}</Box>
                                                     </Button>
-                                                </Grid>
-                                                <Grid item xs={12} sm={6}>
-                                                    <Button  color="primary" onClick={() => open_board(item)}>
-                                                        open board page
-                                                    </Button>
-                                                    {/* <button className="btn btn-sm btn-primary" >
-                                                        
-                                                    </button> */}
                                                 </Grid>
                                             </Grid>
                                         
