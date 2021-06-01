@@ -1,5 +1,6 @@
 import React from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography } from '@material-ui/core';
 import styled from 'styled-components';
 import classnames from 'classnames';
 import pretty from 'pretty';
@@ -16,11 +17,41 @@ class BoardPage extends React.Component {
         loading: true,
         error: null,
         items: [],
+        dialog: null,
+    };
+
+    showFullImage = (item, e) => {
+
+        e && e.stopPropagation();
+        this.setState({ dialog: { item, type: 'img' } });
+    };
+
+    showFullHTML = (item, e) => {
+
+        e && e.stopPropagation();
+        this.setState({ dialog: { item, type: 'html' } });
+    };
+
+    handleDialogClose = () => {
+
+        this.setState({ dialog: null });
+    }
+
+    copyHtmlToClipboard = (item, e) => {
+
+        e.stopPropagation();
+        copyToClipboard(item.htmlPrettified);
+    };
+
+    downloadHtmlAsFile = (item, e) => {
+
+        e.stopPropagation();
+        download(item.filename, item.htmlPrettified);
     };
 
     render() {
 
-        const { loading, error, items } = this.state;
+        const { loading, error, items, dialog } = this.state;
 
         if(loading) {
             return this.renderLoadingIndicator();
@@ -59,7 +90,7 @@ class BoardPage extends React.Component {
                             </ul>
                             <div className="flex-grow-1 tab-content overflow-hidden pt-1">
                                 <div className="w-100 h-100 tab-pane fade show active p-1 text-center position-relative"
-                                     role="tabpanel" id={`img_${item._id}`}
+                                     role="tabpanel" id={`img_${item._id}`} onClick={() => this.showFullImage(item)}
                                 >
                                     <img src={item.screenshot} alt="no screenshot" />
                                     <div className="w-100 h-100 rounded position-absolute"
@@ -74,11 +105,15 @@ class BoardPage extends React.Component {
                                     >{item.htmlPrettified}</SyntaxHighlighter>
                                     <button className="position-absolute fa fa-clone rounded py-1 border-0"
                                             title="Copy HTML to clipboard"
-                                            onClick={() => copyToClipboard(item.htmlPrettified)}
+                                            onClick={e => this.copyHtmlToClipboard(item, e)}
                                     />
                                     <button className="position-absolute fa fa-download rounded py-1 border-0"
                                             title="Download HTML as file"
-                                            onClick={() => download(item.filename, item.htmlPrettified)}
+                                            onClick={e => this.downloadHtmlAsFile(item, e)}
+                                    />
+                                    <button className="position-absolute fa fa-expand-arrows-alt rounded py-1 border-0"
+                                            title="Download HTML as file"
+                                            onClick={e => this.showFullHTML(item, e)}
                                     />
                                 </div>
                             </div>
@@ -91,6 +126,28 @@ class BoardPage extends React.Component {
                         {/********************************************************************************************/}
                     </div>
                 )}</div>
+
+                <Dialog open={!!dialog} fullWidth={true} maxWidth={'lg'} onClose={this.handleDialogClose}>
+                    <DialogTitle>
+                        {dialog?.type === 'img' ? 'Image' : 'HTML'}
+                    </DialogTitle>
+                    <DialogContent dividers>
+                        {(dialog?.type === 'img' &&
+                            <img src={dialog.item.screenshot} alt="no screenshot" />
+                        ) ||
+                        (dialog?.type === 'html' &&
+                            <SyntaxHighlighter language="html" className="w-100 h-100 rounded"
+                            >{dialog.item.htmlPrettified}</SyntaxHighlighter>
+                        ) ||
+                        ('')
+                        }
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handleDialogClose} color="primary">
+                            Close
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </div>
         );
     }
@@ -145,6 +202,15 @@ const BoardPageStyled = styled(BoardPage)`
     }
     img:hover {
         opacity: 1;
+    }
+
+    button.fa-expand-arrows-alt {
+        bottom: 20px;
+        left: 65px;
+        opacity: .5;
+    }
+    button.fa-expand-arrows-alt:hover {
+        opacity: .75;
     }
     
     button.fa-clone {
