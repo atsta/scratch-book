@@ -1,729 +1,785 @@
 {
 	"info": {
-		"_postman_id": "3c037041-2205-4200-9ddb-3c4bd14d164c",
+		"_postman_id": "11d05c1d-c3eb-40d3-b551-113e4ed3cc01",
 		"name": "Scratch Book API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "Register",
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Athena\", \r\n    \"email\": \"test11@mail.com\", \r\n    \"password\": \"1234556\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "User",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Athena\", \r\n    \"email\": \"cs2200019@di.uoa.gr\", \r\n    \"password\": \"2119a!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/api/user/register",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"register"
+							]
 						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:3000/api/user/register",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"user",
-						"register"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Login",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"test3@mail.com\", \r\n    \"password\": \"1234556\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:3000/api/user/login",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"user",
-						"login"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Users",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "auth-token",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDZlZDlmMWI1MWFkMWQ3NTQ0YjEzYWQiLCJpYXQiOjE2MTc4ODI3NzJ9.d9xHhnvhwpV-CEcDVNxDLNwUVK_Wd-lN22IN61T-CNE",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "http://localhost:3000/api/users",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"users"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Specific User",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "auth-token",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDZlZDlmMWI1MWFkMWQ3NTQ0YjEzYWQiLCJpYXQiOjE2MTkwMjU1ODZ9.hf5jwfxhd7t6cR9P6qEfAfEm51LltAgD1o1NIxRV-as",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "http://localhost:3000/api/users/606ed9c9794b3fdaf423e422",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"users",
-						"606ed9c9794b3fdaf423e422"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete User",
-			"request": {
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "auth-token",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDZlZDlmMWI1MWFkMWQ3NTQ0YjEzYWQiLCJpYXQiOjE2MTkwMjU1ODZ9.hf5jwfxhd7t6cR9P6qEfAfEm51LltAgD1o1NIxRV-as",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "http://localhost:3000/api/users/60807069f02faaee00642222",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"users",
-						"60807069f02faaee00642222"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Update User",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "auth-token",
-						"value": "{{auth-token}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Athena2\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{BaseURL}}/users/606ed9c9794b3fdaf423e194",
-					"host": [
-						"{{BaseURL}}"
-					],
-					"path": [
-						"users",
-						"606ed9c9794b3fdaf423e194"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Add Board",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "auth-token",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MDZlZDljOTc5NGIzZmRhZjQyM2UxOTQiLCJuYW1lIjoiQXRoZW5hIiwiZW1haWwiOiJ0ZXN0M0BtYWlsLmNvbSIsImlhdCI6MTYyMDkzNzkwM30.btQYS86JqGWAWpjDNt7fjaTXP6LTzvd4QFAFZ8soOyg",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"title\": \"newboard29\", \r\n    \"is_public\": true, \r\n    \"comment\": \"comment1\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{BaseURL}}/boards",
-					"host": [
-						"{{BaseURL}}"
-					],
-					"path": [
-						"boards"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Follow Board",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "auth-token",
-						"value": "{{auth-token}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"title\": \"newboardTestUpdate\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{BaseURL}}/boards/follow",
-					"host": [
-						"{{BaseURL}}"
-					],
-					"path": [
-						"boards",
-						"follow"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Unfollow Board",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "auth-token",
-						"value": "{{auth-token}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"title\": \"newboardTest3\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{BaseURL}}/boards/unfollow",
-					"host": [
-						"{{BaseURL}}"
-					],
-					"path": [
-						"boards",
-						"unfollow"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Followed Boards",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "auth-token",
-						"value": "{{auth-token}}",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{BaseURL}}/boards/followed",
-					"host": [
-						"{{BaseURL}}"
-					],
-					"path": [
-						"boards",
-						"followed"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Owned Boards",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "auth-token",
-						"value": "{{auth-token}}",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{BaseURL}}/boards/owned",
-					"host": [
-						"{{BaseURL}}"
-					],
-					"path": [
-						"boards",
-						"owned"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete Board",
-			"request": {
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "auth-token",
-						"value": "{{auth-token}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{BaseURL}}/boards/60ac151bb76bc24b8ce834e6",
-					"host": [
-						"{{BaseURL}}"
-					],
-					"path": [
-						"boards",
-						"60ac151bb76bc24b8ce834e6"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Update Board",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "auth-token",
-						"value": "{{auth-token}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"title\": \"newboardTest3\", \r\n    \"is_public\": true,\r\n    \"comment\": \"new comment\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{BaseURL}}/boards/60805a22bccdb6dd34bc1a3a",
-					"host": [
-						"{{BaseURL}}"
-					],
-					"path": [
-						"boards",
-						"60805a22bccdb6dd34bc1a3a"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Share Board",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "auth-token",
-						"value": "{{auth-token}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"aa@aa.gr\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{BaseURL}}/boards/share/60a940eeb5ed843788dbd823",
-					"host": [
-						"{{BaseURL}}"
-					],
-					"path": [
-						"boards",
-						"share",
-						"60a940eeb5ed843788dbd823"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Board",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "auth-token",
-						"value": "{{auth-token}}",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{BaseURL}}/boards/get/60a940eeb5ed843788dbd823",
-					"host": [
-						"{{BaseURL}}"
-					],
-					"path": [
-						"boards",
-						"get",
-						"60a940eeb5ed843788dbd823"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Add URL to Board",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
 					},
-					{
-						"key": "auth-token",
-						"value": "{{auth-token}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"url\": \"testURL\",\r\n    \"comment\": \"testComment\"\r\n}"
+					"response": []
 				},
-				"url": {
-					"raw": "{{BaseURL}}/urls/60a940eeb5ed843788dbd823",
-					"host": [
-						"{{BaseURL}}"
-					],
-					"path": [
-						"urls",
-						"60a940eeb5ed843788dbd823"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get URLs",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "auth-token",
-						"value": "{{auth-token}}",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{BaseURL}}/urls/60a940eeb5ed843788dbd823",
-					"host": [
-						"{{BaseURL}}"
-					],
-					"path": [
-						"urls",
-						"60a940eeb5ed843788dbd823"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Remove URL from Board",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "auth-token",
-						"value": "{{auth-token}}",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"position\": 0\r\n}"
-				},
-				"url": {
-					"raw": "{{BaseURL}}/urls/60a940eeb5ed843788dbd823",
-					"host": [
-						"{{BaseURL}}"
-					],
-					"path": [
-						"urls",
-						"60a940eeb5ed843788dbd823"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Edit URL",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "auth-token",
-						"value": "{{auth-token}}",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"position\": 9, \r\n    \"url\": \"testEditURl\",\r\n    \"comment\": \"edit url is working\"\r\n}"
-				},
-				"url": {
-					"raw": "{{BaseURL}}/urls/editUrl/60a940eeb5ed843788dbd823",
-					"host": [
-						"{{BaseURL}}"
-					],
-					"path": [
-						"urls",
-						"editUrl",
-						"60a940eeb5ed843788dbd823"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Ratings",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "auth-token",
-						"value": "{{auth-token}}",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{BaseURL}}/ratings/60a940eeb5ed843788dbd823",
-					"host": [
-						"{{BaseURL}}"
-					],
-					"path": [
-						"ratings",
-						"60a940eeb5ed843788dbd823"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Add rating to a board",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "auth-token",
-						"value": "{{auth-token}}",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"rating\": 2\r\n}"
-				},
-				"url": {
-					"raw": "{{BaseURL}}/ratings/60a940eeb5ed843788dbd823",
-					"host": [
-						"{{BaseURL}}"
-					],
-					"path": [
-						"ratings",
-						"60a940eeb5ed843788dbd823"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Search by Title",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "auth-token",
-						"value": "{{auth-token}}",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{BaseURL}}/boards/search?title=Test",
-					"host": [
-						"{{BaseURL}}"
-					],
-					"path": [
-						"boards",
-						"search"
-					],
-					"query": [
-						{
-							"key": "title",
-							"value": "Test"
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"cs2200019@di.uoa.gr\", \r\n    \"password\": \"2119a!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/api/user/login",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"login"
+							]
 						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Public Boards",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
 					},
-					{
-						"key": "auth-token",
-						"value": "{{auth-token}}",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{BaseURL}}/boards/public",
-					"host": [
-						"{{BaseURL}}"
-					],
-					"path": [
-						"boards",
-						"public"
-					]
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{auth-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Athena2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/users/606ed9c9794b3fdaf423e194",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"users",
+								"606ed9c9794b3fdaf423e194"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{auth-token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Specific User",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{auth-token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseURL}}/users/60b52ed047297c5e34d0de74",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"users",
+								"60b52ed047297c5e34d0de74"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDZlZDlmMWI1MWFkMWQ3NTQ0YjEzYWQiLCJpYXQiOjE2MTkwMjU1ODZ9.hf5jwfxhd7t6cR9P6qEfAfEm51LltAgD1o1NIxRV-as",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/users/60807069f02faaee00642222",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								"60807069f02faaee00642222"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "Get Total Rating",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": null
-			},
-			"response": []
+			"name": "Board",
+			"item": [
+				{
+					"name": "Add Board",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{auth-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Photography\", \r\n    \"is_public\": true, \r\n    \"comment\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/boards",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"boards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Board",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{auth-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"About photography\", \r\n    \"is_public\": true,\r\n    \"comment\": \"photography insights\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/boards/60b65f8ac0dcf043a048d49a",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"boards",
+								"60b65f8ac0dcf043a048d49a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Board",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{auth-token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseURL}}/boards/get/60b533f4e019061e40ebb079",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"boards",
+								"get",
+								"60b533f4e019061e40ebb079"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Board",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{auth-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/boards/60b5324547297c5e34d0de75",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"boards",
+								"60b5324547297c5e34d0de75"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Shared Boards",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Followed Boards",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{auth-token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseURL}}/boards/followed",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"boards",
+								"followed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Owned Boards",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{auth-token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseURL}}/boards/owned",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"boards",
+								"owned"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Public Boards",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseURL}}/boards/public",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"boards",
+								"public"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Follow Board",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{auth-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"newboardTestUpdate\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/boards/follow",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"boards",
+								"follow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unfollow Board",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{auth-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"newboardTest3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/boards/unfollow",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"boards",
+								"unfollow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Share Board",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{auth-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"aa@aa.gr\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/boards/share/60a940eeb5ed843788dbd823",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"boards",
+								"share",
+								"60a940eeb5ed843788dbd823"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search by Title",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "auth-token",
+								"value": "{{auth-token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseURL}}/boards/search?title=Test",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"boards",
+								"search"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "Test"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
-			"name": "Get Shared Boards",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": null
-			},
-			"response": []
+			"name": "URLs",
+			"item": [
+				{
+					"name": "Add URL to Board",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "auth-token",
+								"value": "{{auth-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"url\": \"https://artists.spotify.com/\",\r\n    \"html\": \"\",\r\n    \"screenshot\": \"\",\r\n    \"comment\": \"Spotify for artists\"\r\n}"
+						},
+						"url": {
+							"raw": "{{BaseURL}}/urls/60b53f6023d20844ec021e55",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"urls",
+								"60b53f6023d20844ec021e55"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get URLs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "auth-token",
+								"value": "{{auth-token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseURL}}/urls/60b53f6023d20844ec021e55",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"urls",
+								"60b53f6023d20844ec021e55"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit URL",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{auth-token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"position\": 9, \r\n    \"url\": \"testEditURl\",\r\n    \"comment\": \"edit url is working\"\r\n}"
+						},
+						"url": {
+							"raw": "{{BaseURL}}/urls/editUrl/60a940eeb5ed843788dbd823",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"urls",
+								"editUrl",
+								"60a940eeb5ed843788dbd823"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove URL from Board",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{auth-token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"position\": 0\r\n}"
+						},
+						"url": {
+							"raw": "{{BaseURL}}/urls/60b3cffbbafd430b5c8ee34e",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"urls",
+								"60b3cffbbafd430b5c8ee34e"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ratings",
+			"item": [
+				{
+					"name": "Get Ratings",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{auth-token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseURL}}/ratings/60b533f4e019061e40ebb079",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"ratings",
+								"60b533f4e019061e40ebb079"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add rating to a board",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{auth-token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"rating\": 4\r\n}"
+						},
+						"url": {
+							"raw": "{{BaseURL}}/ratings/60b533f4e019061e40ebb079",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"ratings",
+								"60b533f4e019061e40ebb079"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Total Rating",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{auth-token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseURL}}/ratings/total/60b533f4e019061e40ebb079",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"ratings",
+								"total",
+								"60b533f4e019061e40ebb079"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Board rating of the user",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{auth-token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseURL}}/ratings/user/60b533f4e019061e40ebb079",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"ratings",
+								"user",
+								"60b533f4e019061e40ebb079"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
