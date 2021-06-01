@@ -32,9 +32,9 @@ router.post('/', async (req, res) => {
     const verified = verify(req, res);
 
     //input validation 
-    const validation_result = new_board_validation(req.body); 
-    if (validation_result.error) 
-        return res.json({ message: validation_result.error.details[0].message });
+    // const validation_result = new_board_validation(req.body); 
+    // if (validation_result.error) 
+    //     return res.json({ message: validation_result.error.details[0].message });
 
     try {
         //check if title already exists
@@ -72,6 +72,7 @@ router.delete('/:boardId', async (req, res) => {
         if (!board) 
             return res.json({ message: "Board does not exist" });
         
+        //check ownership
         const user = await User.findOne({ _id: verified.sub });
         if(!user.owned.includes(board._id)) {
             return res.json({ message: "Does not own the board" });
@@ -80,8 +81,6 @@ router.delete('/:boardId', async (req, res) => {
         const board_delete = await board.deleteOne({ _id: req.params.boardId });
         return res.json({ deleted_id: req.params.boardId });
 
-        //todo: remove references
-        
     } catch(err) {
         return res.json({ error: err });
     }
@@ -91,26 +90,27 @@ router.put('/:boardId', async (req, res) => {
     const verified = verify(req, res);
 
     //input validation 
-    const validation_result = new_board_validation(req.body); 
-    if (validation_result.error) 
-        return res.json({ message: validation_result.error.details[0].message });
-    //todo: remove references and check ownership
-    
-    // if (!verified.owned.includes(req.params.boardId)) 
-    //     return res.status(400).send("Does not own this board");
+    //const validation_result = new_board_validation(req.body); 
+    //if (validation_result.error) 
+    //    return res.json({ message: validation_result.error.details[0].message });
+
+    //check ownership
+    const user = await User.findOne({ _id: verified.sub });
+    if(!user.owned.includes(req.params.boardId)) {
+        return res.json({ message: "Does not own the board" });
+    }
 
     try {
-        //check if title already exists
-        // var board = await Board.findOne({ title: req.body.title });
-        // if (board) 
-        //     return res.json({ message: "Title already exists" });
+        var board = await Board.findOne({ title: req.body.title });
+        if (board && board._id != req.params.boardId)
+            return res.json({ message: "Title already exists" });
 
         board = await Board.findOne({ _id: req.params.boardId });
 
-        var board_update = await board.updateOne( {
-                                title: req.body.title,
-                                is_public: req.body.is_public, 
-                                comment: req.body.comment});
+        await board.updateOne( {
+            title: req.body.title,
+            is_public: req.body.is_public, 
+            comment: req.body.comment});
 
         return res.json({ board: board._id });
         
@@ -294,8 +294,6 @@ router.put('/share/:boardId', async (req, res) => {
 
 //get public boards
 router.get('/public', async (req, res) => {
-    const verified = verify(req, res);
-
     try {
         const public_boards = await Board.find({ is_public: true });
         

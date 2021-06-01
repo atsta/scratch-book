@@ -58,8 +58,6 @@ router.post('/login', async (req, res) => {
         email: user.email,
     }, process.env.TOKEN_SECRET);
     res.header('auth-token', token).send({ token });
-
-    //return res.send("Logged in successfully!");
 });
 
 module.exports = router;

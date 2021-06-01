@@ -37,6 +37,7 @@ const new_board_validation = body => {
                         .required(), 
                 is_public: Joi.bool(), 
                 comment: Joi.string()
+                        .min(0)
                         .max(500)
         });
         return schema.validate(body);
