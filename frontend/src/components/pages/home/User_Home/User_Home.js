@@ -13,6 +13,7 @@ import AddBoards from './AddBoard.js';
 import RemoveIcon from '@material-ui/icons/Remove';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Avatar from '@material-ui/core/Avatar';
+import Card from '@material-ui/core/Card';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import CheckIcon from '@material-ui/icons/Check';
 import {addBoard, deleteBoard, FollowBoard, UnfollowBoard} from '../../../../api.js';
@@ -278,35 +279,52 @@ export default function User_Home(params) {
                     
                     {params.boards.map((item,index)=>{
                         return(
-                            <div key={index}>
-                                <Grid container>
-                                    <Grid item xs={12} sm={6}>
-                                    <Button className={classes.buttonStyle} onClick={()=>show_list(item)} color="inherit">
-                                        <Box fontSize="1.5rem">{item.title}</Box>
-                                    </Button>
-                                        <button className="btn btn-sm btn-primary" onClick={() => open_board(item)}>
-                                            open board page
-                                        </button>
-                                    </Grid>
-                                    <Grid item xs={12} sm={6} align="right">
-                                        {handle_follow(item,index)}
-                                        {handle_unfollow(item,index)}
-                                        {show_rating(item.ratings)}
-                                        {handle_deleteBoard(item,index)}
+                            <div key={index} style={{marginBottom: "1.7%"}}>
+                                <Card style={{backgroundColor: "#788590", color:"black",padding:"0 2% 2% 2%"}}>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={12} sm={6}>
+                                            <Grid container>
+                                                <Grid item xs={12}>
+                                                    <Button className={classes.buttonStyle} onClick={()=>show_list(item)} color="inherit">
+                                                        <Box fontSize="1.5rem">{item.title}</Box>
+                                                    </Button>
+                                                </Grid>
+                                                <Grid item xs={12} sm={6}>
+                                                    <Button  color="primary" onClick={() => open_board(item)}>
+                                                        open board page
+                                                    </Button>
+                                                    {/* <button className="btn btn-sm btn-primary" >
+                                                        
+                                                    </button> */}
+                                                </Grid>
+                                            </Grid>
                                         
+                                            
+                                        </Grid>
+                                        <Grid item xs={12} sm={6} align="right">
+                                            {handle_follow(item,index)}
+                                            {handle_unfollow(item,index)}
+                                            {show_rating(item.ratings)}
+                                            {handle_deleteBoard(item,index)}
+                                            
+                                        </Grid>
+                                        <Grid item xs={12} align="center">
+                                            <TextField
+                                            style={{height:"auto",width:"86%"}}
+                                            //id="standard-disabled"
+                                            defaultValue={item.comment}
+                                            fullWidth
+                                            label="Comment"
+                                            variant="outlined"
+                                            InputProps={{
+                                                readOnly: true,
+                                            }}
+                                            />
+                                        </Grid>
                                     </Grid>
-                                </Grid>
-                                <TextField
-                                style={{height:"auto"}}
-                                //id="standard-disabled"
-                                defaultValue={item.comment}
-                                fullWidth
-                                label="Comment"
-                                variant="outlined"
-                                InputProps={{
-                                    readOnly: true,
-                                }}
-                                />
+                                    
+                                </Card>
+                                
                             </div>
                         )
                             })
