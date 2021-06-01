@@ -60,7 +60,7 @@ export default withRouter(class AppBar extends React.Component {
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="mr-auto">
                             
-                            {items.map((item, index) =>
+                            {/* {items.map((item, index) =>
                                 <NavItem key={index}>
                                     <Link  to={item.route}
                                         className={`h-100 text-white text-center ${item.route === pathname ? 'selected' : ''}`}
@@ -69,7 +69,7 @@ export default withRouter(class AppBar extends React.Component {
                                     </Link>
                                 </NavItem>
                                 
-                            )}
+                            )} */}
                             <NavItem>
                                 <SearchBar />
                             </NavItem>

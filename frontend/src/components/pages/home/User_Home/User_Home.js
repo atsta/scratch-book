@@ -14,6 +14,7 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Avatar from '@material-ui/core/Avatar';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import CheckIcon from '@material-ui/icons/Check';
 import {addBoard, deleteBoard, FollowBoard, UnfollowBoard} from '../../../../api.js';
 
 import './User_Home.css';
@@ -34,7 +35,7 @@ export default function User_Home(params) {
     const classes=useStyles();
     let history = useHistory();
     const [ Open_add, setOpen_add ] = useState(false);
-
+    const [ Show_fbut, setShow_fbut ] = useState(true);
 
     function handle_unfollow(item, index){
         if(params.unfollow==="True"){
@@ -49,50 +50,85 @@ export default function User_Home(params) {
         }
     }
 
-    function unfollowaBoard(item,comment){
+    function unfollowaBoard(item,index){
         var fdata = new FormData();
         fdata.append("title", item["title"]);
 
-        UnfollowBoard(fdata)
+        let newArr=[...params.boards];
+        newArr.splice(index, 1);
+        params.changeBoards(newArr);
+
+        UnfollowBoard(fdata);
 
     }
 
     function handle_follow(item, index){
         if(params.follow==="True"){
-            return(
-                <div>
-                    <Button onClick={()=>{followaBoard(item, index)}} style={{color: "white"}} endIcon={<AddIcon/>}>
-                        Follow Board
-                    </Button>
-                </div>
-                
-            )
+            if(Show_fbut){
+                return(
+                    <div>
+                        <Button onClick={()=>{followaBoard(item, index)}} style={{color: "white"}} endIcon={<AddIcon/>}>
+                            Follow Board
+                        </Button>
+                    </div>
+                    
+                )
+            }
+            else{
+                return(
+                    <div>
+                        
+                        <span>Followed</span>
+                        <CheckIcon />
+                    </div>  
+                )
+            }
+            
         }
     }
 
     function followaBoard(item,comment){
         var fdata = new FormData();
         fdata.append("title", item["title"]);
-
+        setShow_fbut(false)
         FollowBoard(fdata)
 
     }
 
     function show_rating(rate){
-        if(rate!==-1 && params.private!=="True"){
-            return(
-                <div>
-                    <Rating defaultValue={rate} precision={0.5} readOnly/>
-                    <Typography variant="h6" color="textSecondary" style={{display: 'inline-block'}}>
-                        (Nan)
-                    </Typography>
-                </div>
-                
-            )
+        if(params.private!=="True"){
+            if(rate===undefined || rate===null){
+                return(
+                    <div>
+                        <Rating defaultValue={0} precision={0.5} readOnly/>
+                        <Typography variant="h6" color="textSecondary" style={{display: 'inline-block'}}>
+                            (0)
+                        </Typography>
+                    </div>
+                    
+                )
+            }
+            else{
+                console.log(rate)
+                let sum=0;
+                for(var board_rating of rate) {
+                    sum = sum + parseFloat(board_rating.rating);
+                }
+                return(
+                    <div>
+                        <Rating defaultValue={sum/rate.length} precision={0.5} readOnly/>
+                        <Typography variant="h6" color="textSecondary" style={{display: 'inline-block'}}>
+                            ({rate.length})
+                        </Typography>
+                    </div>
+                    
+                )
+            }
+            
         }
     }   
 
-    function show_edit(rate){
+    function show_edit(){
         if(params.private==="True"){
             return(
                 <Button onClick={()=>{setOpen_add(true)}} style={{color: "white"}} endIcon={<AddIcon/>}>
@@ -244,7 +280,7 @@ export default function User_Home(params) {
                                     <Grid item xs={12} sm={6} align="right">
                                         {handle_follow(item,index)}
                                         {handle_unfollow(item,index)}
-                                        {show_rating(item.rating)}
+                                        {show_rating(item.ratings)}
                                         {handle_deleteBoard(item,index)}
                                         
                                     </Grid>

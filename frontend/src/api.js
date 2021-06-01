@@ -100,7 +100,29 @@ export function FollowBoard(formData) {
 
 export function UnfollowBoard(formData) {
 
-    return postJson(`${apiPrefix}/boards/follow`, {
+    return postJson(`${apiPrefix}/boards/unfollow`, {
+        body: formData,
+    });
+}
+
+
+export function getRating(id,formData) {
+
+    return getJson(`${apiPrefix}/ratings/total/`+id, {
+        body: formData,
+    });
+}
+
+export function getmyRating(id,formData) {
+
+    return getJson(`${apiPrefix}/ratings/user/`+id, {
+        body: formData,
+    });
+}
+
+export function setmyRating(id,formData) {
+
+    return postJson(`${apiPrefix}/ratings/`+id, {
         body: formData,
     });
 }

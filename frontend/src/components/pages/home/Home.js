@@ -55,7 +55,7 @@ export default function Home(){
                     <UserHome boards={MyBoard} changeBoards={setMyBoard} private="True" ></UserHome>
                     { FollowedBoard!==null? (
                         <div>
-                            <UserHome boards={FollowedBoard} private="False" unfollow="True" rate="True"></UserHome>
+                            <UserHome boards={FollowedBoard} changeBoards={setFollowedBoard} private="False" unfollow="True" rate="True"></UserHome>
                         </div>
                     ):(
                         <div>

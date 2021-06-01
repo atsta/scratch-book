@@ -16,7 +16,7 @@ export default function SearchBar() {
     function submitSearch(e) {
         e.preventDefault()
         getSearchResults(search_val).then(function(value) {
-            // console.log("HELLO")
+            console.log("HELLO")
             // if(value!==undefined){
             //     console.log(value); // "Success"
             //     setResultBoard(value)

@@ -1,7 +1,6 @@
-import React, { useState, useEffect }  from 'react';
+import React, { useState }  from 'react';
 import UserHome from '../home/User_Home/User_Home.js';
 import { useAuth } from '../../../contexts/AuthContext.js';
-import {getSearchResults} from '../../../api.js'
 
 
 

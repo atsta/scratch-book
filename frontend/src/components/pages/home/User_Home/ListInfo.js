@@ -15,11 +15,13 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import SettingsIcon from '@material-ui/icons/Settings';
 import AddIcon from '@material-ui/icons/Add';
 import TextField from '@material-ui/core/TextField';
+import Rating from '@material-ui/lab/Rating';
 import {getLinks, addLink, deleteLink} from '../../../../api.js';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
 
 import AddLink from './AddLink.js';
+import Rate_Me from './Rate_me.js';
 
 export default function ListInfo(params) {
 
@@ -97,7 +99,6 @@ export default function ListInfo(params) {
     function delete_item(index){
         let newArray=[...myLinks]
 
-        let item={"position":index}
         var fdata = new FormData();
 
         fdata.append("position",index);
@@ -176,6 +177,44 @@ export default function ListInfo(params) {
         else{
             return "red"
         }
+        
+        
+    }
+
+    function show_rating(rate){
+        console.log(rate)
+        if(params.private!=="True"){
+            if(rate===undefined || rate===null){
+                return(
+                    <div>
+                        <Rating defaultValue={0} precision={0.5} readOnly/>
+                        <Typography variant="h6" color="textSecondary" style={{display: 'inline-block'}}>
+                            (0)
+                        </Typography>
+                    </div>
+                    
+                )
+            }
+            else{
+                
+                let sum=0;
+                for(var board_rating of rate) {
+                    sum = sum + parseFloat(board_rating.rating);
+                }
+                console.log(sum)
+                console.log(rate.length)
+                return(
+                    <div>
+                        <Rating defaultValue={sum/rate.length} precision={0.5} readOnly/>
+                        <Typography variant="h6" color="textSecondary" style={{display: 'inline-block'}}>
+                            ({rate.length})
+                        </Typography>
+                    </div>
+                    
+                )
+            }
+            
+        }
     }
 
     return(
@@ -191,13 +230,18 @@ export default function ListInfo(params) {
                                     <Typography className="text-white" variant="h4" align="left"><Box fontSize="1.8rem">{MyBoard.title}</Box></Typography>
                                 </Grid>
                                 <Grid item >
-                                    <FiberManualRecordIcon style={{color:p_color(MyBoard.is_public)}}></FiberManualRecordIcon>
+                                    {params.location.state.private==="True" ?
+                                    <FiberManualRecordIcon style={{color:p_color(MyBoard)}}></FiberManualRecordIcon>
+                                    :
+                                    <div></div>}
+                                    
                                 </Grid>
                             </Grid>
                             
                         </Grid>
                         <Grid item xs={12} sm={6} align="right">
                             {handle_edit()}
+                            {show_rating(MyBoard.ratings)}
                         </Grid>
 
                     </Grid>
@@ -260,6 +304,7 @@ export default function ListInfo(params) {
                     })}
                 </List>
                     :<div></div>}
+                    <Rate_Me MyBoard={MyBoard}></Rate_Me>
                     
                     {handle_show_ed()}
                     {handle_show_add()}
