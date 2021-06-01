@@ -4,7 +4,7 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography }
 import styled from 'styled-components';
 import classnames from 'classnames';
 import pretty from 'pretty';
-import { getLinks, deleteLink } from '../../../api';
+import { getLinks, deleteLink, getBoard } from '../../../api';
 import copyToClipboard from './copyToClipboard';
 import download from './downloadTextAsFile';
 import ItemMenu from './ItemMenu';
@@ -15,6 +15,7 @@ import ItemMenu from './ItemMenu';
 class BoardPage extends React.Component {
 
     state = {
+        board: this.props.location.state?.board || null,
         loading: true,
         error: null,
         items: [],
@@ -25,7 +26,7 @@ class BoardPage extends React.Component {
 
         const { boardId } = this.props.match.params;
 
-        getLinks(boardId)
+        return getLinks(boardId)
             .then(({ URLS }) => {
                 this.setState({
                     items: URLS.map(url => ({
@@ -37,8 +38,8 @@ class BoardPage extends React.Component {
                     loading: false,
                 });
             }).catch(error => {
-            this.setState({ error, loading: false });
-        });
+                this.setState({ error, loading: false });
+            });
     }
 
     showFullImage = (item, e) => {
@@ -101,17 +102,20 @@ class BoardPage extends React.Component {
 
     render() {
 
-        const { loading, items, dialog } = this.state;
+        const { loading, board, items, dialog } = this.state;
 
         return (
             <div className={classnames('container', this.props.className)}>
+                <div>
+                    ...board...
+                </div>
                 {this.renderErrorMessage()}
-                <p className="text-white d-flex justify-content-between pr-3">
-                    <span>board page</span>
+                <div className="d-flex justify-content-between align-items-center mb-1 pr-3">
+                    <span className="text-white-50 small">Links:</span>
                     <button className="btn btn-default fa fa-redo text-white-50" disabled={loading}
                         title="Refresh list" onClick={this.handleListRefresh}
                     />
-                </p>
+                </div>
                 {loading ? this.renderLoadingIndicator() :
                 <div className="d-flex flex-wrap">{items.map((item, index) =>
                     <div key={item._id} className="mb-3 mr-3 shadow rounded bg-white flex-grow-1 d-flex flex-column
@@ -237,7 +241,20 @@ class BoardPage extends React.Component {
 
     componentDidMount() {
 
-        this.fetchBoardItems();
+        const { board } = this.state;
+
+        if(board) {
+            this.fetchBoardItems();
+        }
+        else {
+            const { boardId } = this.props.match.params;
+            getBoard(boardId).then(board => {
+                this.setState({ board });
+                return this.fetchBoardItems();
+            }).catch(error => {
+                this.setState({ error });
+            });
+        }
     }
 }
 
@@ -280,6 +297,11 @@ const BoardPageStyled = styled(BoardPage)`
     
     button.fa-redo:hover {
         color: #ccc !important;
+    }
+
+    .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+        color: #fff;
+        background-color: #4e555b;
     }
 `;
 

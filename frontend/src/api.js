@@ -23,6 +23,10 @@ export function getBoards(formData) {
     });
 }
 
+export function getBoard(boardId) {
+
+    return getJson(`${apiPrefix}/boards/get/${boardId}`);
+}
 
 export function addBoard(formData) {
 
