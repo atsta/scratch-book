@@ -11,6 +11,8 @@ import ItemMenu from './ItemMenu';
 import BoardRating from './BoardRating';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { Refresh } from '@material-ui/icons';
+import EditBoards from '../home/User_Home/Edit_Boards';
+import TextField from '@material-ui/core/TextField';
 
 /**
  *
@@ -104,6 +106,11 @@ class BoardPage extends React.Component {
         this.fetchBoardItems();
     };
 
+    handleEditBoard = () => {
+
+        this.setState({ showEditBoardDialog: true });
+    };
+
     render() {
 
         const { loading, board, items, dialog } = this.state;
@@ -122,12 +129,25 @@ class BoardPage extends React.Component {
                             <BoardRating rating={board.rating} className="ml-2" />
                         </div>
                         <div className="d-flex align-items-center">
-                            <Button onClick={()=>{}} style={{ color: 'white' }} endIcon={<SettingsIcon />}>
+                            <Button onClick={this.handleEditBoard} style={{ color: 'white' }} endIcon={<SettingsIcon />}>
                                 Edit my Board
                             </Button>
                         </div>
                     </div>
-                    <hr className="mr-3 bg-secondary" />
+                    <div className="mt-1 mb-1 pr-3">
+                        <TextField
+                            color="primary"
+                            value={board.comment}
+                            fullWidth
+                            label="Comment"
+                            variant="filled"
+                            InputProps={{
+                                readOnly: true,
+                                className: "text-white",
+                            }}
+                        />
+                    </div>
+                    {/*<hr className="mr-3 bg-secondary" />*/}
                 </>}
                 {this.renderErrorMessage()}
                 <div className="d-flex justify-content-between align-items-center mb-1 pr-3">
@@ -229,6 +249,16 @@ class BoardPage extends React.Component {
                         </Button>
                     </DialogActions>
                 </Dialog>
+
+                {board &&
+                <EditBoards
+                    open={this.state.showEditBoardDialog}
+                    handleClose={() => { this.setState({ showEditBoardDialog: false }); }}
+                    data={items}
+                    changeData={items => { /*this.setState({ items });*/ }}
+                    Board_info={board}
+                    changeBoard={() => {}}
+                />}
             </div>
         );
     }

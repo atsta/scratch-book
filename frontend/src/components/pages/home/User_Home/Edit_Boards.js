@@ -11,7 +11,7 @@ import {updateBoard} from '../../../../api.js';
 
 export default function Edit_Boards(params) {
 
-    console.log(params.data)
+    // console.log(params.data)
     // var myobject=[...params.data]
     const [ MyData, setMyData ] = useState([...params.data]);
     const [ Checked, setChecked ] = useState(params.Board_info.is_public);
@@ -34,8 +34,7 @@ export default function Edit_Boards(params) {
         newArr["title"] = Title;
         newArr["is_public"] = Checked;
         newArr["comment"] = Comment;
-        params.changeBoard(newArr);
-        console.log("Submit done");
+        // console.log("Submit done");
 
         let item={"title":Title,"comment":Comment,"is_public":Checked}
         var fdata = new FormData();
@@ -43,12 +42,20 @@ export default function Edit_Boards(params) {
             fdata.append(key, item[key]);
         }
         updateBoard(fdata,params.Board_info._id)
-        params.changeData(MyData);
-        params.handleClose(false)
+            .then(() => {
+                params.changeBoard(newArr);
+                params.changeData(MyData);
+            })
+            .finally(() => {
+                params.handleClose(false)
+            });
     }
 
+    // The following is to keep functional old and new functionality
+    const open = params.hasOwnProperty('open') ? params.open : true;
+
     return(
-        <Dialog open={true} onClose={()=>{params.handleClose(false)}}  aria-labelledby="form-dialog-title"> 
+        <Dialog open={open} onClose={()=>{params.handleClose(false)}}  aria-labelledby="form-dialog-title">
             <form onSubmit={ (e)=>{handle_submit(e)}}>
             {/* onSubmit={change_handle} */}
                 <DialogContent>
