@@ -1,5 +1,21 @@
 const mongoose = require('mongoose');
 
+var webpage_schema = new mongoose.Schema({
+    url: {
+        type: String
+    },
+    comment: {
+        type: String, 
+        max: 500
+    },
+    html: {
+        type: String
+    }, 
+    screenshot: {
+        type: String
+    }
+});
+
 const board_schema = new mongoose.Schema({
     title: {
         type: String, 
@@ -16,14 +32,12 @@ const board_schema = new mongoose.Schema({
         required: true, 
         default: false
     }, 
-    webpages: {
-        type : Array,
-        default: []
-    }, 
+    webpages: [webpage_schema],
     ratings: {
         type : Array,
         default: []
     }
 });
 
+module.exports = mongoose.model('WebPage', webpage_schema);
 module.exports = mongoose.model('Board', board_schema);

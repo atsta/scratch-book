@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import SearchIcon from '@material-ui/icons/Search';
 import IconButton from '@material-ui/core/IconButton';
 import { useHistory } from 'react-router-dom';
+import {getSearchResults} from '../../../api.js';
 /**
  *
  */
@@ -14,13 +15,27 @@ export default function SearchBar() {
 
     function submitSearch(e) {
         e.preventDefault()
-        history.push(
-            {
-                pathname: '/search',
-                state:{
-                    search_word:search_val
-                }
+        getSearchResults(search_val).then(function(value) {
+            console.log("HELLO")
+            // if(value!==undefined){
+            //     console.log(value); // "Success"
+            //     setResultBoard(value)
+            // }
+            history.push(
+                {
+                    pathname: '/search',
+                    state:{
+                        search_results:value,
+                        search_word:search_val
+                    }
+                });
+            
+            }, function(value) {
+            
+            // not called
             });
+        
+        
         console.log(search_val)
     }
 

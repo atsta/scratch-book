@@ -49,7 +49,7 @@ router.post('/', async (req, res) => {
         });
 
         const board_save = await board.save();
-
+        
         //connect new board to the user 
         await User.updateOne(
             { _id: verified.sub },  
@@ -101,9 +101,9 @@ router.put('/:boardId', async (req, res) => {
 
     try {
         //check if title already exists
-        var board = await Board.findOne({ title: req.body.title });
-        if (board) 
-            return res.json({ message: "Title already exists" });
+        // var board = await Board.findOne({ title: req.body.title });
+        // if (board) 
+        //     return res.json({ message: "Title already exists" });
 
         board = await Board.findOne({ _id: req.params.boardId });
 

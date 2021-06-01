@@ -74,3 +74,55 @@ export function deleteLink(id,formData) {
         body: formData,
     });
 }
+
+export function getSearchResults(title) {
+
+    return getJson(`${apiPrefix}/boards/search?title=`+title, {
+        // body: formData,
+    });
+}
+
+export function getFollowedBoards(formData) {
+
+    return getJson(`${apiPrefix}/boards/followed`, {
+        body: formData,
+    });
+}
+
+
+export function FollowBoard(formData) {
+
+    return postJson(`${apiPrefix}/boards/follow`, {
+        body: formData,
+    });
+}
+
+
+export function UnfollowBoard(formData) {
+
+    return postJson(`${apiPrefix}/boards/unfollow`, {
+        body: formData,
+    });
+}
+
+
+export function getRating(id,formData) {
+
+    return getJson(`${apiPrefix}/ratings/total/`+id, {
+        body: formData,
+    });
+}
+
+export function getmyRating(id,formData) {
+
+    return getJson(`${apiPrefix}/ratings/user/`+id, {
+        body: formData,
+    });
+}
+
+export function setmyRating(id,formData) {
+
+    return postJson(`${apiPrefix}/ratings/`+id, {
+        body: formData,
+    });
+}

@@ -15,6 +15,7 @@ import ListInfo from './pages/home/User_Home/ListInfo.js'
 import Profile from './pages/profile/Profile.js'
 import ShowAll from './pages/home/All_the_list/ShowAllList.js'
 import Search from './pages/Search/Search_Results.js';
+import BoardPage from './pages/board/BoardPage';
 import './App.scss';
 
 /**
@@ -41,6 +42,7 @@ export default class App extends React.Component {
                                 <RouteAuthenticated path="/list" component={ListInfo} />
                                 <RouteAuthenticated path="/showAll" component={ShowAll} />
                                 <RouteAuthenticated path="/search" component={Search} />
+                                <RouteAuthenticated path="/boards/:boardId" component={BoardPage} />
                                 <Route component={NotFound} />
                             </Switch>
                         </div>
