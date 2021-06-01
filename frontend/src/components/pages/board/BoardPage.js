@@ -92,7 +92,7 @@ class BoardPage extends React.Component {
                                 <div className="w-100 h-100 tab-pane fade show active p-1 text-center position-relative"
                                      role="tabpanel" id={`img_${item._id}`} onClick={() => this.showFullImage(item)}
                                 >
-                                    <img src={item.screenshot} alt="no screenshot" />
+                                    <img src={item.screenshot} alt="no screenshot" title="Click to view whole image" />
                                     <div className="w-100 h-100 rounded position-absolute"
                                          style={{ top: 0, left: 0, boxShadow: 'inset 0 0 25px rgba(0,0,0,.5)',
                                          pointerEvents: 'none' }}
@@ -104,16 +104,16 @@ class BoardPage extends React.Component {
                                     <SyntaxHighlighter language="html" className="w-100 h-100 rounded"
                                     >{item.htmlPrettified}</SyntaxHighlighter>
                                     <button className="position-absolute fa fa-clone rounded py-1 border-0"
-                                            title="Copy HTML to clipboard"
-                                            onClick={e => this.copyHtmlToClipboard(item, e)}
+                                        title="Copy HTML to clipboard"
+                                        onClick={e => this.copyHtmlToClipboard(item, e)}
                                     />
                                     <button className="position-absolute fa fa-download rounded py-1 border-0"
-                                            title="Download HTML as file"
-                                            onClick={e => this.downloadHtmlAsFile(item, e)}
+                                        title="Download HTML as file"
+                                        onClick={e => this.downloadHtmlAsFile(item, e)}
                                     />
                                     <button className="position-absolute fa fa-expand-arrows-alt rounded py-1 border-0"
-                                            title="Download HTML as file"
-                                            onClick={e => this.showFullHTML(item, e)}
+                                        title="Show HTML"
+                                        onClick={e => this.showFullHTML(item, e)}
                                     />
                                 </div>
                             </div>
