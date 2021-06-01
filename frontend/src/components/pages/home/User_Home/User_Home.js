@@ -241,6 +241,14 @@ export default function User_Home(params) {
         }
     }
 
+    function open_board(board) {
+
+        history.push({
+            pathname: `/boards/${board._id}`,
+            state: { board },
+        });
+    }
+
     return (
         <div className="text-white">
             <Grid container>
@@ -275,7 +283,9 @@ export default function User_Home(params) {
                                     <Button className={classes.buttonStyle} onClick={()=>show_list(item)} color="inherit">
                                         <Box fontSize="1.5rem">{item.title}</Box>
                                     </Button>
-                                        
+                                        <button className="btn btn-sm btn-primary" onClick={() => open_board(item)}>
+                                            open board page
+                                        </button>
                                     </Grid>
                                     <Grid item xs={12} sm={6} align="right">
                                         {handle_follow(item,index)}
