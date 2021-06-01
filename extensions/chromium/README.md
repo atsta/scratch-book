@@ -2,11 +2,13 @@
 ### Prerequisites
 
     npm install
+    cp .env_template .env
+    # Then update .env as needed. Documentation of configuration options is included in the file itself.
 
 ### Develop extension
 
 1) Run `npm start`.
-2) Open `localhost:4000` in your browser.
+2) Open `localhost:4000` in your browser (or instead of `localhost:4000`, open the URL set in `.env/REACT_APP_FRONTEND_ORIGIN`).
 3) Live reloading is enabled, so whenever you save an edited file the page reloads automatically.
 
 ### Build extension
