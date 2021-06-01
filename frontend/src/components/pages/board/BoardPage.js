@@ -93,18 +93,26 @@ class BoardPage extends React.Component {
             });
     };
 
+    handleListRefresh = () => {
+
+        this.setState({ loading: true });
+        this.fetchBoardItems();
+    };
+
     render() {
 
         const { loading, items, dialog } = this.state;
 
-        if(loading) {
-            return this.renderLoadingIndicator();
-        }
-
         return (
             <div className={classnames('container', this.props.className)}>
                 {this.renderErrorMessage()}
-                <p className="text-white">board page</p>
+                <p className="text-white d-flex justify-content-between pr-3">
+                    <span>board page</span>
+                    <button className="btn btn-default fa fa-redo text-white-50" disabled={loading}
+                        title="Refresh list" onClick={this.handleListRefresh}
+                    />
+                </p>
+                {loading ? this.renderLoadingIndicator() :
                 <div className="d-flex flex-wrap">{items.map((item, index) =>
                     <div key={item._id} className="mb-3 mr-3 shadow rounded bg-white flex-grow-1 d-flex flex-column
                         card position-relative" style={{ width: 300, height: 250 }}
@@ -174,7 +182,7 @@ class BoardPage extends React.Component {
                         </div>
                         {/********************************************************************************************/}
                     </div>
-                )}</div>
+                )}</div>}
 
                 <Dialog open={!!dialog} fullWidth={true} maxWidth={'lg'} onClose={this.handleDialogClose}>
                     <DialogTitle>
@@ -268,6 +276,10 @@ const BoardPageStyled = styled(BoardPage)`
     }
     button.fa-download:hover {
         opacity: .75;
+    }
+    
+    button.fa-redo:hover {
+        color: #ccc !important;
     }
 `;
 
