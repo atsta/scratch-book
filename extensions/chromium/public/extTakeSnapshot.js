@@ -7130,18 +7130,6 @@ async function extTakeSnapshot() {
             zIndex:          '2147483647',
         });
 
-        // Object.assign(div.style, {
-        //     boxSizing:       'border-box',
-        //     position:        'fixed',
-        //     top:             '0px',
-        //     left:            '0px',
-        //     width:           '100vw',
-        //     height:          '100vh',
-        //     backgroundColor: 'transparent',
-        //     borderStyle:     'solid',
-        //     borderColor:     '#0000FF88',
-        // });
-
         return div;
     })();
 

@@ -12,9 +12,6 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
     switch(request.id) {
         case 'SNAPSHOT_TAKEN': {
             if(request.status === 'ok') {
-                // console.log(sender.tab.url);
-                // console.log(request.html);
-                // console.log(request.screenshot);
 
                 chrome.storage.local.get(['active_board_id', 'auth_token'], function(result) {
                     const formData = new FormData();
@@ -38,10 +35,6 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
             else {
                 console.warn(`Unknown request status: ${request.status}`);
             }
-            break;
-        }
-        case 'TAKE_SNAPSHOT': {
-            await extTakeSnapshotInTab();
             break;
         }
         default: {
