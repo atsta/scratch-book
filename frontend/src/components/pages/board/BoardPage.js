@@ -4,9 +4,10 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography }
 import styled from 'styled-components';
 import classnames from 'classnames';
 import pretty from 'pretty';
-import { getLinks } from '../../../api';
+import { getLinks, deleteLink } from '../../../api';
 import copyToClipboard from './copyToClipboard';
 import download from './downloadTextAsFile';
+import ItemMenu from './ItemMenu';
 
 /**
  *
@@ -19,6 +20,26 @@ class BoardPage extends React.Component {
         items: [],
         dialog: null,
     };
+
+    fetchBoardItems() {
+
+        const { boardId } = this.props.match.params;
+
+        getLinks(boardId)
+            .then(({ URLS }) => {
+                this.setState({
+                    items: URLS.map(url => ({
+                        ...url,
+                        htmlPrettified: pretty(url.html),
+                        filename: `scratchbook-html-snippet.html`,
+                        loading: false,
+                    })),
+                    loading: false,
+                });
+            }).catch(error => {
+            this.setState({ error, loading: false });
+        });
+    }
 
     showFullImage = (item, e) => {
 
@@ -49,31 +70,59 @@ class BoardPage extends React.Component {
         download(item.filename, item.htmlPrettified);
     };
 
+    handleRemoveItem = itemPosition => {
+
+        const { boardId } = this.props.match.params;
+        const formData = new FormData();
+        formData.set('position', itemPosition);
+
+        this.setState(state => {
+            state.items[itemPosition].loading = true;
+            return {};
+        });
+
+        deleteLink(boardId, formData)
+            .then(response => {
+                return this.fetchBoardItems();
+            })
+            .catch(error => {
+                this.setState(state => {
+                    state.items[itemPosition].loading = false;
+                    return { error };
+                });
+            });
+    };
+
     render() {
 
-        const { loading, error, items, dialog } = this.state;
+        const { loading, items, dialog } = this.state;
 
         if(loading) {
             return this.renderLoadingIndicator();
         }
-        else if(error) {
-            return this.renderErrorMessage(error);
-        }
 
         return (
             <div className={classnames('container', this.props.className)}>
+                {this.renderErrorMessage()}
                 <p className="text-white">board page</p>
-                <div className="d-flex flex-wrap">{items.map(item =>
+                <div className="d-flex flex-wrap">{items.map((item, index) =>
                     <div key={item._id} className="mb-3 mr-3 shadow rounded bg-white flex-grow-1 d-flex flex-column
-                        card" style={{ width: 300, height: 250 }}
+                        card position-relative" style={{ width: 300, height: 250 }}
                     >
                         {/********************************************************************************************/}
-                        <a href={item.url} target="_blank" className="flex-shrink-0 border-bottom py-2 px-3 d-flex
-                            align-items-center card-header" title={item.url}
+                        <div className="flex-shrink-0 w-100 border-bottom card-header d-flex justify-content-between
+                            align-items-center py-1 pl-3 pr-1"
                         >
-                            <span className="text-truncate">{item.url}</span>
-                            <span className="ml-2 fa fa-external-link-alt" />
-                        </a>
+                            {item.loading ?
+                                <span className="fa fa-spinner fa-spin" /> :
+                                <a href={item.url} target="_blank" className="flex-grow-1 text-truncate"
+                                    title={item.url}
+                                >
+                                    <span className="mr-1 fa fa-external-link-alt" /> {item.url}
+                                </a>
+                            }
+                            <ItemMenu onRemove={() => this.handleRemoveItem(index)} disabled={item.loading} />
+                        </div>
                         {/********************************************************************************************/}
                         <div className="card-body p-1 flex-grow-1 d-flex flex-column">
                             <ul className="flex-shrink-0 nav nav-pills nav-justified" role="tablist">
@@ -92,7 +141,7 @@ class BoardPage extends React.Component {
                                 <div className="w-100 h-100 tab-pane fade show active p-1 text-center position-relative"
                                      role="tabpanel" id={`img_${item._id}`} onClick={() => this.showFullImage(item)}
                                 >
-                                    <img src={item.screenshot} alt="no screenshot" />
+                                    <img src={item.screenshot} alt="no screenshot" title="Click to view whole image" />
                                     <div className="w-100 h-100 rounded position-absolute"
                                          style={{ top: 0, left: 0, boxShadow: 'inset 0 0 25px rgba(0,0,0,.5)',
                                          pointerEvents: 'none' }}
@@ -104,16 +153,16 @@ class BoardPage extends React.Component {
                                     <SyntaxHighlighter language="html" className="w-100 h-100 rounded"
                                     >{item.htmlPrettified}</SyntaxHighlighter>
                                     <button className="position-absolute fa fa-clone rounded py-1 border-0"
-                                            title="Copy HTML to clipboard"
-                                            onClick={e => this.copyHtmlToClipboard(item, e)}
+                                        title="Copy HTML to clipboard"
+                                        onClick={e => this.copyHtmlToClipboard(item, e)}
                                     />
                                     <button className="position-absolute fa fa-download rounded py-1 border-0"
-                                            title="Download HTML as file"
-                                            onClick={e => this.downloadHtmlAsFile(item, e)}
+                                        title="Download HTML as file"
+                                        onClick={e => this.downloadHtmlAsFile(item, e)}
                                     />
                                     <button className="position-absolute fa fa-expand-arrows-alt rounded py-1 border-0"
-                                            title="Download HTML as file"
-                                            onClick={e => this.showFullHTML(item, e)}
+                                        title="Show HTML"
+                                        onClick={e => this.showFullHTML(item, e)}
                                     />
                                 </div>
                             </div>
@@ -161,7 +210,11 @@ class BoardPage extends React.Component {
         );
     }
 
-    renderErrorMessage(error) {
+    renderErrorMessage() {
+
+        const { error } = this.state;
+
+        if(!error) return '';
 
         const message = error.message === 'Failed to fetch'
             ? 'Failed to fetch board contents'
@@ -176,21 +229,7 @@ class BoardPage extends React.Component {
 
     componentDidMount() {
 
-        const { boardId } = this.props.match.params;
-
-        getLinks(boardId)
-            .then(({ URLS }) => {
-                this.setState({
-                    items: URLS.map(url => ({
-                        ...url,
-                        htmlPrettified: pretty(url.html),
-                        filename: `scratchbook-html-snippet.html`,
-                    })),
-                    loading: false,
-                });
-            }).catch(error => {
-                this.setState({ error, loading: false });
-            });
+        this.fetchBoardItems();
     }
 }
 
