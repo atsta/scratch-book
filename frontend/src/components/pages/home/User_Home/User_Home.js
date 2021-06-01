@@ -195,7 +195,8 @@ export default function User_Home(params) {
                 pathname: '/list',
                 state:{
                     Board_info:value,
-                    private:params.private
+                    private:params.private,
+                    follow:params.follow
                 }
             });
     }

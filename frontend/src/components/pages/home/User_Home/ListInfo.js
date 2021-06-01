@@ -183,7 +183,7 @@ export default function ListInfo(params) {
 
     function show_rating(rate){
         console.log(rate)
-        if(params.private!=="True"){
+        if(params.location.state.private!=="True"){
             if(rate===undefined || rate===null){
                 return(
                     <div>
@@ -304,7 +304,12 @@ export default function ListInfo(params) {
                     })}
                 </List>
                     :<div></div>}
+                    {params.location.state.follow==="True" ? 
                     <Rate_Me MyBoard={MyBoard}></Rate_Me>
+                    :
+                    <div></div>
+                    }
+                    
                     
                     {handle_show_ed()}
                     {handle_show_add()}
