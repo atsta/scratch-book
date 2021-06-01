@@ -1,6 +1,6 @@
 import React from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography } from '@material-ui/core';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@material-ui/core';
 import styled from 'styled-components';
 import classnames from 'classnames';
 import pretty from 'pretty';
@@ -8,6 +8,9 @@ import { getLinks, deleteLink, getBoard } from '../../../api';
 import copyToClipboard from './copyToClipboard';
 import download from './downloadTextAsFile';
 import ItemMenu from './ItemMenu';
+import BoardRating from './BoardRating';
+import SettingsIcon from '@material-ui/icons/Settings';
+import { Refresh } from '@material-ui/icons';
 
 /**
  *
@@ -20,6 +23,7 @@ class BoardPage extends React.Component {
         error: null,
         items: [],
         dialog: null,
+        showEditBoardDialog: false,
     };
 
     fetchBoardItems() {
@@ -106,14 +110,30 @@ class BoardPage extends React.Component {
 
         return (
             <div className={classnames('container', this.props.className)}>
-                <div>
-                    ...board...
-                </div>
+                {board && <>
+                    <div className="d-flex justify-content-between align-items-center pr-3">
+                        <div className="d-flex align-items-center">
+                            <h4 className="text-white mb-0">{board.title}</h4>
+                            <span className={`badge ${board.is_public ? 'badge-success' : 'badge-danger'} ml-2 pb-1`}
+                                title="Board visibility"
+                            >
+                                {board.is_public ? 'public' : 'private'}
+                            </span>
+                            <BoardRating rating={board.rating} className="ml-2" />
+                        </div>
+                        <div className="d-flex align-items-center">
+                            <Button onClick={()=>{}} style={{ color: 'white' }} endIcon={<SettingsIcon />}>
+                                Edit my Board
+                            </Button>
+                        </div>
+                    </div>
+                    <hr className="mr-3 bg-secondary" />
+                </>}
                 {this.renderErrorMessage()}
                 <div className="d-flex justify-content-between align-items-center mb-1 pr-3">
                     <span className="text-white-50 small">Links:</span>
-                    <button className="btn btn-default fa fa-redo text-white-50" disabled={loading}
-                        title="Refresh list" onClick={this.handleListRefresh}
+                    <Button title="Refresh list" onClick={this.handleListRefresh} endIcon={<Refresh />}
+                        disabled={loading} style={{ color: 'white' }}
                     />
                 </div>
                 {loading ? this.renderLoadingIndicator() :
