@@ -16,7 +16,8 @@ router.get('/get/:boardId', async (req, res) => {
         if (board == null) 
             return res.json({ message: "Board does not exist" });
 
-        return res.json({  title: board.title, 
+        return res.json({ _id: board._id,
+                    title: board.title,
                     is_public: board.is_public, 
                     comment: board.comment,
                     webpages: board.webpages, 
