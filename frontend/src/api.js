@@ -43,9 +43,9 @@ export function deleteBoard(id,formData) {
     });
 }
 
-export function updateBoard(formData,id) {
-    console.log(`${apiPrefix}/boards/`+id)
-    return putJson(`${apiPrefix}/boards/`+id, {
+export function updateBoard(id, formData) {
+
+    return putJson(`${apiPrefix}/boards/${id}`, {
         body: formData,
     });
 }

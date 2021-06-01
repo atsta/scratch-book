@@ -30,24 +30,24 @@ export default function Edit_Boards(params) {
 
     function handle_submit(e){
         e.preventDefault();
-        let newArr = params.Board_info;
-        newArr["title"] = Title;
-        newArr["is_public"] = Checked;
-        newArr["comment"] = Comment;
         // console.log("Submit done");
-
-        let item={"title":Title,"comment":Comment,"is_public":Checked}
-        var fdata = new FormData();
-        for ( var key in item ) {
+        const item = { title: Title, comment: Comment, is_public: Checked };
+        const fdata = new FormData();
+        for(let key in item) {
             fdata.append(key, item[key]);
         }
-        updateBoard(fdata,params.Board_info._id)
+
+        updateBoard(params.Board_info._id, fdata)
             .then(() => {
-                params.changeBoard(newArr);
+                const updatedBoard = {
+                    ...params.Board_info,
+                    ...item,
+                };
+                params.changeBoard(updatedBoard);
                 params.changeData(MyData);
             })
             .finally(() => {
-                params.handleClose(false)
+                params.handleClose(false);
             });
     }
 

@@ -257,7 +257,7 @@ class BoardPage extends React.Component {
                     data={items}
                     changeData={items => { /*this.setState({ items });*/ }}
                     Board_info={board}
-                    changeBoard={() => {}}
+                    changeBoard={board => { this.setState({ board }); }}
                 />}
             </div>
         );
