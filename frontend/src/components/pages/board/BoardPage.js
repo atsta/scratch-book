@@ -326,7 +326,6 @@ class BoardPage extends React.Component {
                         addnewLink={this.handleLinkAdded}
                         b_id={board._id}
                     />
-                    {console.log(this.state) || ''}
                     <EditLink
                         open={!!this.state.showEditLinkDialog}
                         index={this.state.showEditLinkDialog?.itemPosition}
