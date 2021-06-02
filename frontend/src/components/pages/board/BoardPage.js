@@ -224,13 +224,19 @@ class BoardPage extends React.Component {
                             {/* <BoardRating rating={board.rating} className="ml-2" /> */}
                             {this.show_rating(board.ratings,board.is_public )}
                         </div>
-                        <div className="d-flex align-items-center">
+                        {
+                            this.props.location.state.private==="True" ? 
+                            <div className="d-flex align-items-center">
                             <Button onClick={this.handleShowEditBoardDialog} style={{ color: 'white' }}
                                 endIcon={<SettingsIcon />}
                             >
                                 Edit my Board
                             </Button>
                         </div>
+                            :
+                            <div></div>
+                        }
+                        
                     </div>
                     <div className="mt-1 mb-1 pr-3">
                         <TextField
@@ -258,9 +264,16 @@ class BoardPage extends React.Component {
                     <Button title="Refresh list" onClick={this.handleListRefresh} endIcon={<Refresh />}
                         disabled={loading} style={{ color: 'white' }}
                     />
-                    <Button onClick={this.handleShowAddLinkDialog} style={{color: "white"}} endIcon={<AddIcon/>}>
-                        Add new Link
-                    </Button>
+                    {
+                        this.props.location.state.private==="True" ? 
+                        <Button onClick={this.handleShowAddLinkDialog} style={{color: "white"}} endIcon={<AddIcon/>}>
+                            Add new Link
+                        </Button>
+                        :
+                        <div></div>
+
+                    }
+                    
                 </div>
                 {loading ? this.renderLoadingIndicator() :
                 <div className="d-flex flex-wrap">{items.map((item, index) =>
@@ -279,10 +292,17 @@ class BoardPage extends React.Component {
                                     <span className="mr-1 fa fa-external-link-alt" /> {item.url}
                                 </a>
                             }
-                            <ItemMenu disabled={item.loading}
-                                onRemove={() => this.setConfirmOpen(true)}
-                                onEdit={() => this.handleShowEditLinkDialog(index)}
-                            />
+                            {
+                                this.props.location.state.private==="True" ? 
+                                <ItemMenu disabled={item.loading}
+                                    onRemove={() => this.setConfirmOpen(true)}
+                                    onEdit={() => this.handleShowEditLinkDialog(index)}
+                                />
+                                :
+                                <div></div>
+
+                            }
+                            
                             <ConfirmDialog
                                 title={"Are you sure you want to delete Link "+item.title+"?"}
                                 open={this.state.ConfirmOpen}
