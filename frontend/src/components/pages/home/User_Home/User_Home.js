@@ -282,14 +282,14 @@ export default function User_Home(params) {
                         </Grid>
                         <Grid item xs={12} sm={6} align="right">
                             <Grid container>
-                                <Grid item xs={8}>
+                                <Grid item xs={12}>
                                    {show_edit()}
                                 </Grid>
-                                <Grid item xs={4}>
-                                    <Button size="small" color='inherit'style={{textTransform: "none"}} > {/*onClick={handleShowAll} */}
+                                {/* <Grid item xs={4}>
+                                    <Button size="small" color='inherit'style={{textTransform: "none"}} > onClick={handleShowAll}
                                         See all the list
                                     </Button>
-                                </Grid>
+                                </Grid> */}
                             </Grid>
                             
                         </Grid>
