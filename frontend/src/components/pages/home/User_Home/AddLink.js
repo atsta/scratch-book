@@ -5,19 +5,37 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Button from '@material-ui/core/Button';
 import { TextField } from '@material-ui/core';
+import { addLink } from '../../../../api';
 
 export default function AddLink(params) {
     const [ Title, setTitle] = useState("");
     const [ Comment, setComment] = useState("");
-    
-    function handle_submit(e){
+
+    function handle_submit(e) {
         e.preventDefault();
-        params.addnewLink(Title,Comment)
-        params.handleClose(false)
+
+        const item = { url: Title, comment: Comment };
+        const fdata = new FormData();
+        for(let key in item) {
+            fdata.append(key, item[key]);
+        }
+
+        addLink(params.b_id, fdata)
+            .then(response => {
+                params.handleClose(false);
+                params.addnewLink();
+            })
+            .catch(error => {
+                params.handleClose(false);
+                console.error(error.message);
+            });
     }
 
+    // The following is to keep functional old and new functionality
+    const open = params.hasOwnProperty('open') ? params.open : true;
+
     return(
-        <Dialog open={true} onClose={()=>{params.handleClose(false)}}  aria-labelledby="form-dialog-title"> 
+        <Dialog open={open} onClose={()=>{params.handleClose(false)}}  aria-labelledby="form-dialog-title">
             <form onSubmit={ (e)=>{handle_submit(e)}}>
             {/* onSubmit={change_handle} */}
                 <DialogContent>

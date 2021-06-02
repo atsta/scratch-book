@@ -13,6 +13,8 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import { Refresh } from '@material-ui/icons';
 import EditBoards from '../home/User_Home/Edit_Boards';
 import TextField from '@material-ui/core/TextField';
+import AddLink from '../home/User_Home/AddLink';
+import AddIcon from '@material-ui/icons/Add';
 
 /**
  *
@@ -26,6 +28,7 @@ class BoardPage extends React.Component {
         items: [],
         dialog: null,
         showEditBoardDialog: false,
+        showAddLinkDialog: false,
     };
 
     fetchBoardItems() {
@@ -106,9 +109,20 @@ class BoardPage extends React.Component {
         this.fetchBoardItems();
     };
 
-    handleEditBoard = () => {
+    handleShowEditBoardDialog = () => {
 
         this.setState({ showEditBoardDialog: true });
+    };
+
+    handleShowAddLinkDialog = () => {
+
+        this.setState({ showAddLinkDialog: true });
+    };
+
+    handleLinkAdded = () => {
+
+        this.setState({ loading: true });
+        this.fetchBoardItems();
     };
 
     render() {
@@ -129,7 +143,9 @@ class BoardPage extends React.Component {
                             <BoardRating rating={board.rating} className="ml-2" />
                         </div>
                         <div className="d-flex align-items-center">
-                            <Button onClick={this.handleEditBoard} style={{ color: 'white' }} endIcon={<SettingsIcon />}>
+                            <Button onClick={this.handleShowEditBoardDialog} style={{ color: 'white' }}
+                                endIcon={<SettingsIcon />}
+                            >
                                 Edit my Board
                             </Button>
                         </div>
@@ -150,11 +166,14 @@ class BoardPage extends React.Component {
                     {/*<hr className="mr-3 bg-secondary" />*/}
                 </>}
                 {this.renderErrorMessage()}
-                <div className="d-flex justify-content-between align-items-center mb-1 pr-3">
-                    <span className="text-white-50 small">Links:</span>
+                <div className="d-flex align-items-center mb-1 pr-3">
+                    <span className="text-white-50 small mr-auto">Links:</span>
                     <Button title="Refresh list" onClick={this.handleListRefresh} endIcon={<Refresh />}
                         disabled={loading} style={{ color: 'white' }}
                     />
+                    <Button onClick={this.handleShowAddLinkDialog} style={{color: "white"}} endIcon={<AddIcon/>}>
+                        Add new Link
+                    </Button>
                 </div>
                 {loading ? this.renderLoadingIndicator() :
                 <div className="d-flex flex-wrap">{items.map((item, index) =>
@@ -250,15 +269,22 @@ class BoardPage extends React.Component {
                     </DialogActions>
                 </Dialog>
 
-                {board &&
-                <EditBoards
-                    open={this.state.showEditBoardDialog}
-                    handleClose={() => { this.setState({ showEditBoardDialog: false }); }}
-                    data={items}
-                    changeData={items => { /*this.setState({ items });*/ }}
-                    Board_info={board}
-                    changeBoard={board => { this.setState({ board }); }}
-                />}
+                {board && (<>
+                    <EditBoards
+                        open={this.state.showEditBoardDialog}
+                        handleClose={() => { this.setState({ showEditBoardDialog: false }); }}
+                        data={items}
+                        changeData={items => { /*this.setState({ items });*/ }}
+                        Board_info={board}
+                        changeBoard={board => { this.setState({ board }); }}
+                    />
+                    <AddLink
+                        open={this.state.showAddLinkDialog}
+                        handleClose={() => { this.setState({ showAddLinkDialog: false }); }}
+                        addnewLink={this.handleLinkAdded}
+                        b_id={board._id}
+                    />
+                </>)}
             </div>
         );
     }
