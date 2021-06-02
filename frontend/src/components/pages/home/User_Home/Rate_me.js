@@ -33,13 +33,13 @@ export default function Rate_me(params) {
     return(
         <Grid container>
             <Grid item xs={6} align="right">
-                <Typography variant="h5">
+                <Typography variant="h5" className="text-white">
                     Rate this board:
                 </Typography>
             </Grid>
             <Grid item xs={6} align="left">
                 {
-                    MyRate!==null ?
+                    MyRate!==null && MyRate!==undefined?
                         <Rating name="myRate" value={MyRate}
                         onChange={(event, newValue) => {
                             event.preventDefault()

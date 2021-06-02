@@ -16,6 +16,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import CheckIcon from '@material-ui/icons/Check';
+import ConfirmDialog from '../../ConfirmDialog/ConfirmDialog.js'
 import {addBoard, deleteBoard, FollowBoard, UnfollowBoard} from '../../../../api.js';
 
 import './User_Home.css';
@@ -36,8 +37,12 @@ export default function User_Home(params) {
     const classes=useStyles();
     let history = useHistory();
     const [ Open_add, setOpen_add ] = useState(false);
+    const [ ConfirmOpen, setConfirmOpen ] = useState(false);
     const [ Show_fbut, setShow_fbut ] = useState(true);
 
+
+
+    // case of unfollow button
     function handle_unfollow(item, index){
         if(params.unfollow==="True"){
             return(
@@ -63,6 +68,7 @@ export default function User_Home(params) {
 
     }
 
+    // case of follow button
     function handle_follow(item, index){
         if(params.follow==="True"){
             if(Show_fbut){
@@ -96,15 +102,14 @@ export default function User_Home(params) {
 
     }
 
-    function show_rating(rate){
-        if(params.private!=="True"){
+    //case we want to show the rating
+    function show_rating(rate, i_public){
+        if(i_public){
             if(rate===undefined || rate===null){
                 return(
                     <div>
-                        <Rating defaultValue={0} precision={0.5} readOnly/>
-                        <Typography variant="h6" color="textSecondary" style={{display: 'inline-block'}}>
-                            (0)
-                        </Typography>
+                        <Rating defaultValue={0} precision={0.5} readOnly />
+                        <Typography className="ml-1 small">({0})</Typography>
                     </div>
                     
                 )
@@ -116,11 +121,9 @@ export default function User_Home(params) {
                     sum = sum + parseFloat(board_rating.rating);
                 }
                 return(
-                    <div>
-                        <Rating defaultValue={sum/rate.length} precision={0.5} readOnly/>
-                        <Typography variant="h6" color="textSecondary" style={{display: 'inline-block'}}>
-                            ({rate.length})
-                        </Typography>
+                    <div className="align-items-end ml-2">
+                        <Rating defaultValue={sum/rate.length} precision={0.5} readOnly />
+                        <Typography className="ml-1 small">({rate.length})</Typography>
                     </div>
                     
                 )
@@ -227,15 +230,24 @@ export default function User_Home(params) {
                 <Grid container >
                     <Grid item xs={12} sm={10}>
                         
-                            <span>Public:</span>
-                            <FiberManualRecordIcon style={{color:p_color(item)}}></FiberManualRecordIcon>
+                            {/* <span>Public:</span>
+                            <FiberManualRecordIcon style={{color:p_color(item)}}></FiberManualRecordIcon> */}
                         
                           
                     </Grid>
                     <Grid item xs={12} sm={2}>
-                        <Button onClick={()=>{deleteaBoard(item,index)}} endIcon={<DeleteIcon/>}>
-                        
+                        <Button onClick={()=>{ setConfirmOpen(true)/*deleteaBoard(item,index)*/}} startIcon={<DeleteIcon/>}>
+                        Delete
                         </Button>
+                        <ConfirmDialog
+                            title={"Are you sure you want to delete Board "+item.title+"?"}
+                            open={ConfirmOpen}
+                            setOpen={setConfirmOpen}
+                            children="*This action cannot be undone"
+                            onConfirm={deleteaBoard}
+                            item={item}
+                            index={index}
+                        ></ConfirmDialog>
                     </Grid>
                 </Grid>
                 
@@ -244,12 +256,17 @@ export default function User_Home(params) {
     }
 
     function open_board(board) {
-
+        console.log(params.follow)
         history.push({
             pathname: `/boards/${board._id}`,
-            state: { board },
+            state: { board:board,
+                private:params.private,
+                follow:params.unfollow,
+            },
         });
     }
+
+    
 
     return (
         <div className="text-white">
@@ -268,7 +285,7 @@ export default function User_Home(params) {
                                    {show_edit()}
                                 </Grid>
                                 <Grid item xs={4}>
-                                    <Button size="small" color='inherit'style={{textTransform: "none"}} onClick={handleShowAll}>
+                                    <Button size="small" color='inherit'style={{textTransform: "none"}} > {/*onClick={handleShowAll} */}
                                         See all the list
                                     </Button>
                                 </Grid>
@@ -280,27 +297,35 @@ export default function User_Home(params) {
                     {params.boards.map((item,index)=>{
                         return(
                             <div key={index} style={{marginBottom: "1.7%"}}>
-                                <Card style={{backgroundColor: "#788590", color:"black",padding:"0 2% 2% 2%"}}>
+                                <Card style={{backgroundColor: "#6E7A84", color:"black",padding:"1% 2% 2% 2%"}}>
                                     <Grid container spacing={2}>
                                         <Grid item xs={12} sm={6}>
                                             <Grid container>
-                                                <Grid item xs={12}>
+                                                <Grid item>
                                                     {/*<Button className={classes.buttonStyle} onClick={()=>show_list(item)} color="inherit">*/}
                                                     {/*    <Box fontSize="1.5rem">{item.title}</Box>*/}
                                                     {/*</Button>*/}
                                                     <Button className={classes.buttonStyle} onClick={()=>open_board(item)} color="inherit">
-                                                        <Box fontSize="1.5rem">{item.title}</Box>
+                                                    <h4 className="text-white mb-0 font-weight-bold">{item.title}</h4>
                                                     </Button>
+                                                </Grid>
+                                                <Grid item>
+                                                    <span className={`badge ${item.is_public ? 'badge-success' : 'badge-danger'} ml-2 pb-1`}
+                                                        title="Board visibility"
+                                                    >
+                                                        {item.is_public ? 'public' : 'private'}
+                                                    </span>
                                                 </Grid>
                                             </Grid>
                                         
                                             
                                         </Grid>
                                         <Grid item xs={12} sm={6} align="right">
+                                            {handle_deleteBoard(item,index)}
                                             {handle_follow(item,index)}
                                             {handle_unfollow(item,index)}
-                                            {show_rating(item.ratings)}
-                                            {handle_deleteBoard(item,index)}
+                                            {show_rating(item.ratings, item.is_public)}
+                                            
                                             
                                         </Grid>
                                         <Grid item xs={12} align="center">
@@ -310,9 +335,10 @@ export default function User_Home(params) {
                                             defaultValue={item.comment}
                                             fullWidth
                                             label="Comment"
-                                            variant="outlined"
+                                            variant="filled"
                                             InputProps={{
                                                 readOnly: true,
+                                                className: "text-white",
                                             }}
                                             />
                                         </Grid>

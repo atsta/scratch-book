@@ -16,7 +16,7 @@ export default function SearchBar() {
     function submitSearch(e) {
         e.preventDefault()
         getSearchResults(search_val).then(function(value) {
-            console.log("HELLO")
+            // console.log("HELLO")
             // if(value!==undefined){
             //     console.log(value); // "Success"
             //     setResultBoard(value)
@@ -43,7 +43,11 @@ export default function SearchBar() {
     return (
         <Grid container>
             <Grid item>
-                <TextField label="Search" 
+                <TextField 
+                InputProps={{
+                    className: "text-white"
+                  }}
+                label="Search" 
                 variant="outlined" 
                 onChange={(event)=>{
                     setSearch_val(event.target.value)}}/>

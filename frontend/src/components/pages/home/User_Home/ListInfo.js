@@ -16,6 +16,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import AddIcon from '@material-ui/icons/Add';
 import TextField from '@material-ui/core/TextField';
 import Rating from '@material-ui/lab/Rating';
+import ConfirmDialog from '../../ConfirmDialog/ConfirmDialog.js'
 import {getLinks, addLink, deleteLink} from '../../../../api.js';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
@@ -30,6 +31,7 @@ export default function ListInfo(params) {
 
     const [ Open_add, setOpen_add ] = useState(false);
     const [ Open_edit, setOpen_edit ] = useState(false);
+    const [ ConfirmOpen, setConfirmOpen ] = useState(false);
     const [ myLinks, setmyLinks ] = useState(params.location.state.Board_info.webpages);
     const [ MyBoard, setMyBoard ] = useState(params.location.state.Board_info);
     const [ Checked, setChecked ] = useState(false);
@@ -96,16 +98,20 @@ export default function ListInfo(params) {
         } 
     }
 
-    function delete_item(index){
+    function delete_item(item,index){
         let newArray=[...myLinks]
 
         var fdata = new FormData();
 
         fdata.append("position",index);
+
         // fdata.append("url",myLinks[index].url);
         // for (var value of fdata.values()) {
         //     console.log(value);
         //  }
+
+        
+        console.log("HELLO");
 
         deleteLink(params.location.state.Board_info._id,fdata)
         newArray.splice(index, 1);
@@ -145,9 +151,17 @@ export default function ListInfo(params) {
                     
                     </Button>
                     
-                    <Button onClick={()=>{delete_item(index)}} endIcon={<DeleteIcon/>}>
+                    <Button onClick={()=>{setConfirmOpen(true) /*delete_item(item,index)*/}} endIcon={<DeleteIcon/>}>
                     
                     </Button>
+                    <ConfirmDialog
+                        title="Delete Post?"
+                        open={ConfirmOpen}
+                        setOpen={setConfirmOpen}
+                        onConfirm={delete_item}
+                        item={item}
+                        index={index}
+                    ></ConfirmDialog>
                 </div>
                 
             )

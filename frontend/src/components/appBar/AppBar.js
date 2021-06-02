@@ -70,9 +70,9 @@ export default withRouter(class AppBar extends React.Component {
                                 </NavItem>
                                 
                             )} */}
-                            {/*<NavItem>*/}
-                            {/*    <SearchBar />*/}
-                            {/*</NavItem>*/}
+                             <NavItem>
+                            <SearchBar />
+                            </NavItem>
                             </Nav>
                             
                             <NavItem>

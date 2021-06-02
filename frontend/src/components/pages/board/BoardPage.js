@@ -16,11 +16,19 @@ import TextField from '@material-ui/core/TextField';
 import AddLink from '../home/User_Home/AddLink';
 import AddIcon from '@material-ui/icons/Add';
 import EditLink from '../home/User_Home/EditLink';
+import Rating from '@material-ui/lab/Rating';
+import Typography from '@material-ui/core/Typography';
+import ConfirmDialog from '../ConfirmDialog/ConfirmDialog.js'
 
+import Rate_Me from '../home/User_Home/Rate_me.js'
 /**
  *
  */
 class BoardPage extends React.Component {
+
+    // constructor(){
+    //     this.setConfirmOpen = this.setConfirmOpen.bind(this);
+    // }
 
     state = {
         board: this.props.location.state?.board || null,
@@ -31,7 +39,12 @@ class BoardPage extends React.Component {
         showEditBoardDialog: false,
         showAddLinkDialog: false,
         showEditLinkDialog: false,
+        ConfirmOpen:false,
     };
+
+    setConfirmOpen= (value) => {
+        this.setState({ ConfirmOpen: value });
+    }
 
     fetchBoardItems() {
 
@@ -82,7 +95,7 @@ class BoardPage extends React.Component {
         download(item.filename, item.htmlPrettified);
     };
 
-    handleRemoveItem = itemPosition => {
+    handleRemoveItem = (item,itemPosition) => {
 
         const { boardId } = this.props.match.params;
         const formData = new FormData();
@@ -164,6 +177,35 @@ class BoardPage extends React.Component {
         this.setState({ showEditLinkDialog: { itemPosition } });
     };
 
+    show_rating=(rate,i_public)=>{
+        console.log(rate)
+        if(i_public){
+            if(rate===undefined || rate===null){
+                return(
+                    <div className='d-flex align-items-center ml-2' title="Board rating">
+                        <Rating defaultValue={0} precision={0.5} readOnly />
+                        <Typography className="ml-1 small text-secondary">(0)</Typography>
+                    </div>
+                )
+            }
+            else{
+                
+                let sum=0;
+                for(var board_rating of rate) {
+                    sum = sum + parseFloat(board_rating.rating);
+                }
+                return(
+                    <div className='d-flex align-items-center ml-2' title="Board rating">
+                        <Rating defaultValue={sum/rate.length} precision={0.5} readOnly />
+                        <Typography className="ml-1 small text-secondary">({rate.length})</Typography>
+                    </div>
+                    
+                )
+            }
+            
+        }
+    }
+
     render() {
 
         const { loading, board, items, dialog } = this.state;
@@ -179,7 +221,8 @@ class BoardPage extends React.Component {
                             >
                                 {board.is_public ? 'public' : 'private'}
                             </span>
-                            <BoardRating rating={board.rating} className="ml-2" />
+                            {/* <BoardRating rating={board.rating} className="ml-2" /> */}
+                            {this.show_rating(board.ratings,board.is_public )}
                         </div>
                         <div className="d-flex align-items-center">
                             <Button onClick={this.handleShowEditBoardDialog} style={{ color: 'white' }}
@@ -204,6 +247,11 @@ class BoardPage extends React.Component {
                     </div>
                     {/*<hr className="mr-3 bg-secondary" />*/}
                 </>}
+                {this.props.location.state.follow==="True" ? 
+                    <Rate_Me MyBoard={board}></Rate_Me>
+                    :
+                    <div></div>
+                    }
                 {this.renderErrorMessage()}
                 <div className="d-flex align-items-center mb-1 pr-3">
                     <span className="text-white-50 small mr-auto">Links:</span>
@@ -232,9 +280,18 @@ class BoardPage extends React.Component {
                                 </a>
                             }
                             <ItemMenu disabled={item.loading}
-                                onRemove={() => this.handleRemoveItem(index)}
+                                onRemove={() => this.setConfirmOpen(true)}
                                 onEdit={() => this.handleShowEditLinkDialog(index)}
                             />
+                            <ConfirmDialog
+                                title={"Are you sure you want to delete Link "+item.title+"?"}
+                                open={this.state.ConfirmOpen}
+                                setOpen={this.setConfirmOpen}
+                                children="*This action cannot be undone"
+                                onConfirm={this.handleRemoveItem}
+                                item={item}
+                                index={index}
+                            ></ConfirmDialog>
                         </div>
                         {/********************************************************************************************/}
                         <div className="card-body p-1 flex-grow-1 d-flex flex-column">
