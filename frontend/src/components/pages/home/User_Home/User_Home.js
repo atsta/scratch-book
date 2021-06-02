@@ -187,7 +187,7 @@ export default function User_Home(params) {
         }
         else{
             return(
-                "Public Boards"
+                "Followed Boards"
             )
             
         }
