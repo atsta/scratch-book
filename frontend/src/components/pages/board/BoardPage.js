@@ -4,7 +4,7 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mate
 import styled from 'styled-components';
 import classnames from 'classnames';
 import pretty from 'pretty';
-import { getLinks, deleteLink, getBoard } from '../../../api';
+import { getLinks, deleteLink, getBoard, updateLinks } from '../../../api';
 import copyToClipboard from './copyToClipboard';
 import download from './downloadTextAsFile';
 import ItemMenu from './ItemMenu';
@@ -15,6 +15,7 @@ import EditBoards from '../home/User_Home/Edit_Boards';
 import TextField from '@material-ui/core/TextField';
 import AddLink from '../home/User_Home/AddLink';
 import AddIcon from '@material-ui/icons/Add';
+import EditLink from '../home/User_Home/EditLink';
 
 /**
  *
@@ -29,6 +30,7 @@ class BoardPage extends React.Component {
         dialog: null,
         showEditBoardDialog: false,
         showAddLinkDialog: false,
+        showEditLinkDialog: false,
     };
 
     fetchBoardItems() {
@@ -103,6 +105,38 @@ class BoardPage extends React.Component {
             });
     };
 
+    handleEditItem = (itemPosition, url, comment) => {
+
+        const { boardId } = this.props.match.params;
+        const item = { url, comment, position: itemPosition };
+        const fdata = new FormData();
+        for(let key in item) {
+            fdata.append(key, item[key]);
+        }
+
+        this.setState(state => {
+            state.items[itemPosition].loading = true;
+            return {};
+        });
+
+        updateLinks(boardId, fdata)
+            .then(response => {
+                this.setState(state => {
+                    const item = state.items[itemPosition]
+                    item.url = url;
+                    item.comment = comment;
+                    item.loading = false;
+                    return {};
+                });
+            })
+            .catch(error => {
+                this.setState(state => {
+                    state.items[itemPosition].loading = false;
+                    return { error };
+                });
+            })
+    };
+
     handleListRefresh = () => {
 
         this.setState({ loading: true });
@@ -123,6 +157,11 @@ class BoardPage extends React.Component {
 
         this.setState({ loading: true });
         this.fetchBoardItems();
+    };
+
+    handleShowEditLinkDialog = itemPosition => {
+
+        this.setState({ showEditLinkDialog: { itemPosition } });
     };
 
     render() {
@@ -192,7 +231,10 @@ class BoardPage extends React.Component {
                                     <span className="mr-1 fa fa-external-link-alt" /> {item.url}
                                 </a>
                             }
-                            <ItemMenu onRemove={() => this.handleRemoveItem(index)} disabled={item.loading} />
+                            <ItemMenu disabled={item.loading}
+                                onRemove={() => this.handleRemoveItem(index)}
+                                onEdit={() => this.handleShowEditLinkDialog(index)}
+                            />
                         </div>
                         {/********************************************************************************************/}
                         <div className="card-body p-1 flex-grow-1 d-flex flex-column">
@@ -283,6 +325,15 @@ class BoardPage extends React.Component {
                         handleClose={() => { this.setState({ showAddLinkDialog: false }); }}
                         addnewLink={this.handleLinkAdded}
                         b_id={board._id}
+                    />
+                    {console.log(this.state) || ''}
+                    <EditLink
+                        open={!!this.state.showEditLinkDialog}
+                        index={this.state.showEditLinkDialog?.itemPosition}
+                        item={this.state.items[this.state.showEditLinkDialog?.itemPosition]}
+                        b_id={board._id}
+                        changeItem={this.handleEditItem}
+                        close_dialog={() => { this.setState({ showEditLinkDialog: false }); }}
                     />
                 </>)}
             </div>

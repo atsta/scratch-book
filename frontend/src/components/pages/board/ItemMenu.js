@@ -24,6 +24,11 @@ export default function ItemMenu(props) {
         props.onRemove();
     }
 
+    const handleEditClick = () => {
+        handleClose();
+        props.onEdit();
+    }
+
     return (
         <div>
             <IconButton
@@ -49,6 +54,9 @@ export default function ItemMenu(props) {
                     },
                 }}
             >
+                <MenuItem onClick={handleEditClick}>
+                    Edit
+                </MenuItem>
                 <MenuItem onClick={handleRemoveClick}>
                     Remove
                 </MenuItem>

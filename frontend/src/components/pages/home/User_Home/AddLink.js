@@ -22,16 +22,16 @@ export default function AddLink(params) {
 
         addLink(params.b_id, fdata)
             .then(response => {
-                params.handleClose(false);
                 params.addnewLink();
             })
             .catch(error => {
-                params.handleClose(false);
                 console.error(error.message);
+            })
+            .finally(() => {
+                params.handleClose(false);
             });
     }
 
-    // The following is to keep functional old and new functionality
     const open = params.hasOwnProperty('open') ? params.open : true;
 
     return(

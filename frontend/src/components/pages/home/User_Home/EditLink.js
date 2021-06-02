@@ -1,39 +1,33 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Button from '@material-ui/core/Button';
 import { TextField } from '@material-ui/core';
-import {updateLinks} from '../../../../api.js';
 
 export default function EditLink(params) {
-    const [ Link, setLink ] = useState(params.item.url);
-    const [ Comment, setComment ] = useState(params.item.comment);
+    const [ Link, setLink ] = useState(params.item?.url || '');
+    const [ Comment, setComment ] = useState(params.item?.comment || '');
 
-    
+    useEffect(() => {
+        setLink(params.item?.url || '');
+        setComment(params.item?.comment || '');
+    }, [params]);
 
     function change_handle(e){
         e.preventDefault();
-
-        let item={"url":Link,"comment":Comment,"position":params.index}
-        var fdata = new FormData();
-        for ( var key in item ) {
-            fdata.append(key, item[key]);
-        }
-
-        updateLinks(params.b_id,fdata)
         params.changeItem(params.index,Link,Comment)
         params.close_dialog()
     }
-    console.log("AAAAAAA")
-    console.log(params.item.LinkName)
-    console.log(params.index)
+
+    const open = params.hasOwnProperty('open') ? params.open : true;
+
     return(
         <div>
             
-            <Dialog open={true} onClose={params.close_dialog}  aria-labelledby="form-dialog-title"> 
+            <Dialog open={open} onClose={params.close_dialog}  aria-labelledby="form-dialog-title">
             <form  onSubmit={change_handle}>
             {/* onSubmit={change_handle} */}
                 <DialogContent>
