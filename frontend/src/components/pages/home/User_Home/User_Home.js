@@ -39,7 +39,7 @@ export default function User_Home(params) {
     const [ Open_add, setOpen_add ] = useState(false);
     const [ ConfirmOpen, setConfirmOpen ] = useState(false);
     const [ Show_fbut, setShow_fbut ] = useState(true);
-
+    const [ CurrentFollow, setCurrentFollow ] = useState(0);
 
 
     // case of unfollow button
@@ -71,7 +71,7 @@ export default function User_Home(params) {
     // case of follow button
     function handle_follow(item, index){
         if(params.follow==="True"){
-            if(Show_fbut){
+            if(Show_fbut || index!==CurrentFollow){
                 return(
                     <div>
                         <Button onClick={()=>{followaBoard(item, index)}} style={{color: "white"}} endIcon={<AddIcon/>}>
@@ -81,7 +81,7 @@ export default function User_Home(params) {
                     
                 )
             }
-            else{
+            else if(index===CurrentFollow){
                 return(
                     <div>
                         
@@ -94,7 +94,8 @@ export default function User_Home(params) {
         }
     }
 
-    function followaBoard(item,comment){
+    function followaBoard(item,index){
+        setCurrentFollow(index);
         var fdata = new FormData();
         fdata.append("title", item["title"]);
         setShow_fbut(false)
